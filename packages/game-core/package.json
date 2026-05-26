@@ -1,0 +1,30 @@
+{
+  "name": "@boomerang/game-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@boomerang/content": "workspace:*",
+    "@boomerang/netcode": "workspace:*",
+    "howler": "^2.2.4",
+    "matter-js": "^0.20.0",
+    "phaser": "^3.87.0"
+  },
+  "devDependencies": {
+    "@types/howler": "^2.2.12",
+    "@types/matter-js": "^0.19.8",
+    "typescript": "^5.7.2"
+  }
+}

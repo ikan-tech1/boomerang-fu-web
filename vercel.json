@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm --filter @boomerang/web build",
+  "devCommand": "pnpm --filter @boomerang/web dev",
+  "installCommand": "pnpm install",
+  "outputDirectory": "apps/web/dist",
+  "framework": "vite"
+}

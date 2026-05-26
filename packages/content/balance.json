@@ -1,0 +1,120 @@
+{
+  "$schema": "./schemas/balance.schema.json",
+  "_meta": {
+    "version": "0.1.0",
+    "references": [
+      "docs/reference/controls.md",
+      "docs/reference/physics.md",
+      "docs/reference/power-ups.md",
+      "https://en.wikipedia.org/wiki/Boomerang_Fu",
+      "Steam store page"
+    ]
+  },
+  "controls": {
+    "stickDeadzone": 0.15,
+    "dashDurationMs": 180,
+    "dashCooldownMs": 600,
+    "dashIFramesMs": 120,
+    "dashSpeedMultiplier": 2.8,
+    "meleeArcDeg": 120,
+    "meleeRangePx": 48,
+    "meleeActiveMs": 80,
+    "throwChargeMaxMs": 800,
+    "recallHomingBoost": 0.08
+  },
+  "player": {
+    "baseSpeed": 220,
+    "acceleration": 1800,
+    "friction": 1200,
+    "radiusPx": 20,
+    "mass": 1.0,
+    "respawnDelayMs": 2000,
+    "respawnIFramesMs": 1000
+  },
+  "boomerang": {
+    "minThrowSpeed": 400,
+    "maxThrowSpeed": 900,
+    "spinRateDegPerSec": 720,
+    "wallRestitution": 0.85,
+    "returnHomingStrength": 0.12,
+    "returnSpeed": 650,
+    "pickupRadiusPx": 32,
+    "maxBounces": 8,
+    "dropFriction": 0.95,
+    "selfHitOnReturn": true
+  },
+  "combat": {
+    "oneHitKill": true,
+    "hitstopMs": 50,
+    "killKnockback": 300,
+    "droppedBoomerangKill": true
+  },
+  "match": {
+    "defaultRoundTimerSec": 120,
+    "countdownSec": 3,
+    "maxPlayers": 6,
+    "maxPowerUpStack": 3,
+    "powerUpSpawnIntervalSec": 8,
+    "powerUpPickupRadiusPx": 28
+  },
+  "modes": {
+    "freeForAll": {
+      "friendlyFireDefault": false
+    },
+    "teams": {
+      "teamCount": 2,
+      "teamNames": ["Spicy", "Chill"]
+    },
+    "goldenBoomerang": {
+      "moveSpeedMultiplier": 0.7,
+      "killPoints": 3,
+      "spawnDelaySec": 30
+    },
+    "hideAndSeek": {
+      "hidePhaseSec": 30,
+      "seekPhaseSec": 90
+    }
+  },
+  "powerUps": {
+    "shield": { "id": "shield", "name": "Shield", "maxUses": 1, "conflicts": [] },
+    "fire": { "id": "fire", "name": "Fire", "maxUses": -1, "conflicts": ["ice"] },
+    "ice": { "id": "ice", "name": "Ice", "maxUses": -1, "conflicts": ["fire"] },
+    "explosive": { "id": "explosive", "name": "Explosive", "maxUses": 3, "conflicts": [] },
+    "teleport": { "id": "teleport", "name": "Teleport", "maxUses": 3, "conflicts": [] },
+    "telekinesis": { "id": "telekinesis", "name": "Telekinesis", "maxUses": 1, "durationSec": 5, "conflicts": [] },
+    "disguise": { "id": "disguise", "name": "Disguise", "maxUses": 1, "conflicts": [] },
+    "decoy": { "id": "decoy", "name": "Decoy", "maxUses": 1, "conflicts": [] },
+    "battleRoyale": { "id": "battleRoyale", "name": "Battle Royale", "maxUses": 1, "conflicts": [] },
+    "spamDash": { "id": "spamDash", "name": "Spam Dash", "maxUses": 1, "durationSec": 8, "conflicts": [] },
+    "golden": { "id": "golden", "name": "Golden Boomerang", "maxUses": -1, "conflicts": [] },
+    "magnet": { "id": "magnet", "name": "Magnet", "maxUses": 1, "durationSec": 10, "conflicts": [] },
+    "multiThrow": { "id": "multiThrow", "name": "Multi Throw", "maxUses": 3, "conflicts": [] }
+  },
+  "characters": [
+    { "id": "avocado", "name": "Avocado", "source": "base", "color": "#568203" },
+    { "id": "banana", "name": "Banana", "source": "base", "color": "#FFE135" },
+    { "id": "apple", "name": "Apple", "source": "base", "color": "#FF0800" },
+    { "id": "orange", "name": "Orange", "source": "base", "color": "#FFA500" },
+    { "id": "watermelon", "name": "Watermelon", "source": "base", "color": "#FF6B6B" },
+    { "id": "pineapple", "name": "Pineapple", "source": "base", "color": "#FFD700" },
+    { "id": "strawberry", "name": "Strawberry", "source": "base", "color": "#FC5A8D" },
+    { "id": "cherry", "name": "Cherry", "source": "base", "color": "#DE3163" },
+    { "id": "lemon", "name": "Lemon", "source": "base", "color": "#FFF44F" },
+    { "id": "grape", "name": "Grape", "source": "base", "color": "#6F2DA8" },
+    { "id": "coconut", "name": "Coconut", "source": "base", "color": "#8B7355" },
+    { "id": "peach", "name": "Peach", "source": "base", "color": "#FFCBA4" },
+    { "id": "donut", "name": "Donut", "source": "just-desserts", "color": "#D2691E" },
+    { "id": "cupcake", "name": "Cupcake", "source": "just-desserts", "color": "#FFB6C1" },
+    { "id": "cookie", "name": "Cookie", "source": "just-desserts", "color": "#C4A484" },
+    { "id": "icecream", "name": "Ice Cream", "source": "just-desserts", "color": "#E8D5B7" },
+    { "id": "popsicle", "name": "Popsicle", "source": "just-desserts", "color": "#FF69B4" },
+    { "id": "cake", "name": "Cake", "source": "just-desserts", "color": "#F5DEB3" },
+    { "id": "muffin", "name": "Muffin", "source": "just-desserts", "color": "#8B4513" },
+    { "id": "pie", "name": "Pie", "source": "just-desserts", "color": "#CD853F" }
+  ],
+  "arenas": [
+    { "id": "kitchen-classic", "name": "Kitchen Classic", "theme": "kitchen", "status": "sample" },
+    { "id": "jungle-temple", "name": "Jungle Temple", "theme": "jungle", "status": "sample" },
+    { "id": "bamboo-bridge", "name": "Bamboo Bridge", "theme": "bamboo", "status": "sample" }
+  ]
+}
