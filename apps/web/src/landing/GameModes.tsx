@@ -1,29 +1,42 @@
-import { Link } from 'react-router-dom';
 import { GAME_MODES } from './content';
+import { GameButton } from './GameButton';
+
+const MODE_ART: Record<string, string> = {
+  freeForAll: '⚔',
+  teams: '🌶',
+  goldenBoomerang: '★',
+  hideAndSeek: '?',
+};
 
 export function GameModes() {
   return (
-    <section id="modes" className="lp-section" aria-labelledby="modes-title">
-      <div className="lp-section-header">
-        <span className="lp-section-label">Game Modes</span>
-        <h2 id="modes-title">Four Ways to Throw Down</h2>
-        <p>From free-for-all brawls to stealthy hide-and-seek — every mode keeps the boomerang flying.</p>
+    <section id="modes" className="bf-panel-section">
+      <div className="bf-wood-frame bf-panel">
+        <header className="bf-panel-header">
+          <h2 id="modes-title">Select Game Mode</h2>
+          <p>Free-for-all brawls, team spice, golden boomerang hunts, and prop disguise chaos.</p>
+        </header>
+        <div className="bf-mode-select">
+          {GAME_MODES.map((mode) => (
+            <article
+              key={mode.id}
+              className="bf-mode-tile"
+              style={{ '--mode-accent': mode.accent } as React.CSSProperties}
+            >
+              <span className="bf-mode-tile-icon" aria-hidden="true">
+                {MODE_ART[mode.id]}
+              </span>
+              <h3>{mode.name}</h3>
+              <p>{mode.description}</p>
+            </article>
+          ))}
+        </div>
+        <div className="bf-panel-cta">
+          <GameButton to="/play" variant="primary">
+            Choose a Mode
+          </GameButton>
+        </div>
       </div>
-      <div className="lp-modes-grid">
-        {GAME_MODES.map((mode) => (
-          <article key={mode.id} className="lp-mode-card">
-            <div className="lp-mode-icon" aria-hidden="true">{mode.icon}</div>
-            <h3>{mode.name}</h3>
-            <p>{mode.description}</p>
-            <div className="lp-mode-accent" style={{ background: mode.accent }} />
-          </article>
-        ))}
-      </div>
-      <p style={{ textAlign: 'center', marginTop: 32 }}>
-        <Link to="/play" className="lp-btn lp-btn-primary">
-          Choose a Mode
-        </Link>
-      </p>
     </section>
   );
 }

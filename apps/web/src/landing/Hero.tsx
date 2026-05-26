@@ -1,38 +1,54 @@
 import { Link } from 'react-router-dom';
 import { TAGLINE } from './content';
+import { GameButton } from './GameButton';
+import { ArenaScene } from './ArenaScene';
+import { GameLogo } from '../ui/GameLogo';
+import { PlayerSlots } from '../ui/PlayerSlots';
+import { TitleBackground } from '../ui/TitleBackground';
 
 export function Hero() {
   return (
-    <section className="lp-hero" aria-labelledby="hero-title">
-      <div className="lp-hero-bg" aria-hidden="true" />
-      <div className="lp-hero-grid" aria-hidden="true" />
-      <div className="lp-hero-inner">
-        <div>
-          <span className="lp-hero-badge">
-            <span aria-hidden="true">🎉</span> Fan recreation · Play in browser
-          </span>
-          <h1 id="hero-title">
-            Food fighters.<br />
-            <span className="highlight">Flying chaos.</span>
-          </h1>
-          <p className="lp-hero-tagline">{TAGLINE}</p>
-          <div className="lp-hero-actions">
-            <Link to="/play" className="lp-btn lp-btn-primary">
-              Play Free
-            </Link>
-            <a href="#how-to-play" className="lp-btn lp-btn-secondary">
-              How to Play
-            </a>
+    <section className="bf-title-screen" aria-labelledby="title-heading">
+      <TitleBackground variant="full" />
+
+      <div className="bf-title-layout">
+        <div className="bf-title-copy">
+          <p className="bf-title-kicker">Fan recreation · Browser party brawler</p>
+
+          <div id="title-heading">
+            <GameLogo size="lg" />
           </div>
+
+          <p className="bf-title-tagline">{TAGLINE}</p>
+
+          <div className="bf-title-actions">
+            <GameButton to="/play" variant="primary" size="lg">
+              Play
+            </GameButton>
+            <GameButton href="#controls" variant="secondary" size="lg">
+              Controls
+            </GameButton>
+          </div>
+
+          <p className="bf-press-start" aria-hidden="true">
+            <span className="bf-press-start-blink">Press Start</span>
+          </p>
+
+          <PlayerSlots />
         </div>
-        <div className="lp-hero-visual" aria-hidden="true">
-          <div className="lp-arena-mock">
-            <div className="lp-arena-floor" />
-            <div className="lp-food-fighter f1">🥑</div>
-            <div className="lp-food-fighter f2">🍌</div>
-            <div className="lp-food-fighter f3">🍎</div>
-            <div className="lp-boomerang-orbit">
-              <span className="lp-boomerang">🪃</span>
+
+        <div className="bf-title-arena-wrap">
+          <div className="bf-wood-frame">
+            <div className="bf-panel" style={{ padding: 8, position: 'relative' }}>
+              <ArenaScene theme="kitchen" showSliceFx showScorePop />
+              <div className="bf-arena-hud">
+                <span className="bf-arena-timer">1:42</span>
+                <div className="bf-arena-kills">
+                  <span style={{ background: '#568203' }}>4</span>
+                  <span style={{ background: '#FFE135', color: '#3d3200' }}>3</span>
+                  <span style={{ background: '#FF0800' }}>2</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

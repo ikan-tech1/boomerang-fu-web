@@ -1,41 +1,38 @@
 import { Link } from 'react-router-dom';
-import { getNavSections } from './content';
+import { GameButton } from './GameButton';
 
 const GITHUB_URL = 'https://github.com/ikan-tech1/boomerang-fu-web';
 
 export function LandingFooter() {
   return (
-    <footer className="lp-footer">
-      <div className="lp-footer-inner">
-        <div className="lp-footer-brand">
-          <Link to="/" className="lp-logo">
-            <span className="lp-logo-icon" aria-hidden="true">🪃</span>
-            <span className="lp-logo-text">Boomerang Fu Web</span>
-          </Link>
+    <footer className="bf-credits">
+      <div className="bf-credits-inner">
+        <div className="bf-credits-brand">
+          <h2 className="bf-credits-logo">Boomerang Fu Web</h2>
           <p>
-            A browser-based fan recreation of the party brawler you know and love.
-            Built with Phaser, React, and too many throwable vegetables.
+            Unofficial fan recreation built with Phaser, React, and too many throwable vegetables.
           </p>
+          <GameButton to="/play" variant="primary" size="sm">
+            Play
+          </GameButton>
         </div>
-        <div>
-          <h4>Explore</h4>
-          <ul className="lp-footer-links">
-            {getNavSections().map((s) => (
-              <li key={s.id}>
-                <a href={`#${s.id}`}>{s.label}</a>
-              </li>
-            ))}
-            <li>
-              <Link to="/play">Play Now</Link>
-            </li>
+        <nav aria-label="Footer links">
+          <h3>Menu</h3>
+          <ul>
+            <li><a href="#fighters">Fighters</a></li>
+            <li><a href="#modes">Modes</a></li>
+            <li><a href="#powerups">Power-Ups</a></li>
+            <li><a href="#arenas">Arenas</a></li>
+            <li><a href="#controls">Controls</a></li>
+            <li><Link to="/play">Play</Link></li>
           </ul>
-        </div>
-        <div>
-          <h4>Project</h4>
-          <ul className="lp-footer-links">
+        </nav>
+        <nav aria-label="Project links">
+          <h3>Project</h3>
+          <ul>
             <li>
               <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-                GitHub Repository
+                GitHub
               </a>
             </li>
             <li>
@@ -44,15 +41,14 @@ export function LandingFooter() {
               </a>
             </li>
           </ul>
-        </div>
+        </nav>
       </div>
-      <div className="lp-footer-bottom">
-        <p className="lp-disclaimer">
-          Boomerang Fu Web is an unofficial fan recreation and is not affiliated with, endorsed by,
-          or connected to Flyhigh Works or the original Boomerang Fu game. All original game
-          trademarks belong to their respective owners.
+      <div className="bf-credits-legal">
+        <p>
+          Boomerang Fu Web is not affiliated with Flyhigh Works or Cranky Watermelon.
+          Original Boomerang Fu © its respective owners.
         </p>
-        <p>© {new Date().getFullYear()} Boomerang Fu Web · MIT License</p>
+        <p>© {new Date().getFullYear()} · MIT License</p>
       </div>
     </footer>
   );

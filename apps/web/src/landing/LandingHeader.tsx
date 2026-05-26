@@ -1,32 +1,30 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getNavSections } from './content';
+import { GameButton } from './GameButton';
 
 export function LandingHeader() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
-    <header className={`lp-header${scrolled ? ' scrolled' : ''}`}>
-      <Link to="/" className="lp-logo" aria-label="Boomerang Fu Web home">
-        <span className="lp-logo-icon" aria-hidden="true">🪃</span>
-        <span className="lp-logo-text">Boomerang Fu Web</span>
+    <header className="bf-menu-bar">
+      <Link to="/" className="bf-menu-logo" aria-label="Boomerang Fu Web home">
+        <svg className="bf-menu-logo-icon" viewBox="0 0 32 32" aria-hidden="true">
+          <path
+            d="M4 16 C4 8 12 4 20 6 C24 7 28 11 27 16 C26 22 20 26 14 25 C10 24 4 21 4 16 Z"
+            fill="#E8A317"
+            stroke="#8B5A00"
+            strokeWidth="1.5"
+          />
+        </svg>
+        <span>Boomerang Fu Web</span>
       </Link>
-      <nav className="lp-nav" aria-label="Page sections">
-        {getNavSections().map((s) => (
-          <a key={s.id} href={`#${s.id}`}>
-            {s.label}
-          </a>
-        ))}
+      <nav className="bf-menu-nav" aria-label="Page sections">
+        <a href="#fighters">Fighters</a>
+        <a href="#modes">Modes</a>
+        <a href="#powerups">Power-Ups</a>
+        <a href="#arenas">Arenas</a>
+        <a href="#controls">Controls</a>
       </nav>
-      <Link to="/play" className="lp-btn lp-btn-primary lp-btn-sm">
-        Play Now
-      </Link>
+      <GameButton to="/play" variant="primary" size="sm">
+        Play
+      </GameButton>
     </header>
   );
 }

@@ -10,6 +10,12 @@ import {
   type PlayerProfile,
 } from '../progress/ProfileStore';
 import { getColyseusEndpoint, OnlineClient, type OnlineSyncBridge } from '../net/OnlineClient';
+import { GameButton } from '../landing/GameButton';
+import { ArenaScene } from '../landing/ArenaScene';
+import { GameLogo } from '../ui/GameLogo';
+import { PlayerSlots } from '../ui/PlayerSlots';
+import { TitleBackground } from '../ui/TitleBackground';
+import { ModeSelectList } from '../ui/ModeSelectList';
 
 type BotDifficulty = 'easy' | 'medium' | 'hard';
 
@@ -43,37 +49,60 @@ export default function PlayPage() {
   }, [profile]);
 
   return (
-    <div className="bf-app">
-      <header className="bf-header">
-        <Link to="/" className="bf-home-link">← Home</Link>
-        <h1>Boomerang Fu Web</h1>
-        {profile && (
-          <span className="bf-xp-badge">
-            Lv {profile.level} · {profile.xp} XP · {profile.matchesPlayed} matches
-          </span>
-        )}
-        <nav className="bf-nav">
-          <button className={screen === 'menu' ? 'active' : ''} onClick={() => setScreen('menu')}>
-            Menu
-          </button>
-          <button className={screen === 'lobby' ? 'active' : ''} onClick={() => setScreen('lobby')}>
-            Lobby
-          </button>
-          <button className={screen === 'game' ? 'active' : ''} onClick={() => setScreen('game')}>
-            Play
-          </button>
-        </nav>
-      </header>
+    <div className={`bf-app${screen === 'menu' ? ' bf-app--menu' : ''}`}>
+      {screen !== 'menu' && (
+        <header className="bf-game-hud">
+          <div className="bf-game-hud-left">
+            <Link to="/" className="bf-btn bf-btn--ghost bf-btn--sm" aria-label="Back to title">
+              <span className="bf-btn-face">← Title</span>
+            </Link>
+            <GameLogo size="sm" />
+            {screen === 'lobby' && (
+              <span className="bf-game-hud-mode">Mode: {modeLabel(mode)}</span>
+            )}
+          </div>
+          {profile && (
+            <span className="bf-xp-badge">
+              Lv {profile.level} · {profile.xp} XP
+            </span>
+          )}
+          <nav className="bf-nav-pills" aria-label="Play flow">
+            <button type="button" onClick={() => setScreen('menu')}>
+              Menu
+            </button>
+            <button
+              type="button"
+              className={screen === 'lobby' ? 'active' : ''}
+              onClick={() => setScreen('lobby')}
+            >
+              Lobby
+            </button>
+            <button
+              type="button"
+              className={screen === 'game' ? 'active' : ''}
+              onClick={() => setScreen('game')}
+            >
+              Play
+            </button>
+          </nav>
+        </header>
+      )}
 
       {screen === 'menu' && (
-        <MenuScreen onSelectMode={(m) => { setMode(m); setScreen('lobby'); }} />
+        <MenuScreen
+          selectedMode={mode}
+          onSelectMode={(m) => {
+            setMode(m);
+            setScreen('lobby');
+          }}
+        />
       )}
 
       {screen === 'lobby' && (
-        <div className="bf-main">
-          <aside className="bf-sidebar">
+        <div className="bf-lobby">
+          <aside className="bf-lobby-panel">
             <h2>Mode: {modeLabel(mode)}</h2>
-            <label>
+            <label className="bf-lobby-field">
               Arena
               <select value={arenaId} onChange={(e) => setArenaId(e.target.value)}>
                 {balance.arenas.map((a) => (
@@ -81,7 +110,7 @@ export default function PlayPage() {
                 ))}
               </select>
             </label>
-            <label>
+            <label className="bf-lobby-field">
               Character
               <div className="bf-char-grid">
                 {balance.characters
@@ -99,7 +128,7 @@ export default function PlayPage() {
                   ))}
               </div>
             </label>
-            <label>
+            <label className="bf-lobby-field">
               Bots: {botCount}
               <input
                 type="range"
@@ -109,7 +138,7 @@ export default function PlayPage() {
                 onChange={(e) => setBotCount(Number(e.target.value))}
               />
             </label>
-            <label>
+            <label className="bf-lobby-field">
               Bot difficulty
               <select value={botDifficulty} onChange={(e) => setBotDifficulty(e.target.value as BotDifficulty)}>
                 <option value="easy">Easy</option>
@@ -117,7 +146,7 @@ export default function PlayPage() {
                 <option value="hard">Hard</option>
               </select>
             </label>
-            <label>
+            <label className="bf-lobby-field">
               Power-up rate: {powerUpRate.toFixed(1)}×
               <input
                 type="range"
@@ -128,7 +157,7 @@ export default function PlayPage() {
                 onChange={(e) => setPowerUpRate(Number(e.target.value))}
               />
             </label>
-            <label>
+            <label className="bf-lobby-field">
               <input
                 type="checkbox"
                 checked={shieldsForLosers}
@@ -137,7 +166,7 @@ export default function PlayPage() {
               Shields for losers
             </label>
             {mode === 'teams' && (
-              <label>
+              <label className="bf-lobby-field">
                 <input
                   type="checkbox"
                   checked={friendlyFire}
@@ -146,15 +175,16 @@ export default function PlayPage() {
                 Friendly Fire
               </label>
             )}
-            <label>
+            <label className="bf-lobby-field">
               <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />
               Debug Overlay
             </label>
             <div className="bf-online-panel">
               <strong>Online (Colyseus)</strong>
-              <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-                <button
-                  type="button"
+              <div className="bf-online-actions">
+                <GameButton
+                  variant="secondary"
+                  size="sm"
                   onClick={async () => {
                     try {
                       if (!onlineClientRef.current) onlineClientRef.current = new OnlineClient();
@@ -167,15 +197,15 @@ export default function PlayPage() {
                   }}
                 >
                   Host
-                </button>
+                </GameButton>
                 <input
                   placeholder="Room code"
                   value={onlineCode}
                   onChange={(e) => setOnlineCode(e.target.value.toUpperCase())}
-                  style={{ flex: 1 }}
                 />
-                <button
-                  type="button"
+                <GameButton
+                  variant="secondary"
+                  size="sm"
                   onClick={async () => {
                     try {
                       if (!onlineClientRef.current) onlineClientRef.current = new OnlineClient();
@@ -187,9 +217,9 @@ export default function PlayPage() {
                   }}
                 >
                   Join
-                </button>
+                </GameButton>
               </div>
-              {onlineStatus && <p style={{ fontSize: 12, color: '#8af' }}>{onlineStatus}</p>}
+              {onlineStatus && <p className="bf-online-status">{onlineStatus}</p>}
             </div>
             <div className="bf-controls-help">
               <strong>P1 Controls</strong><br />
@@ -197,21 +227,26 @@ export default function PlayPage() {
               Space throw · R recall · F match prop (Hide)<br />
               D toggle debug in-game
             </div>
-            <button
-              style={{ marginTop: 16, width: '100%', padding: 10 }}
-              onClick={() => setScreen('game')}
-            >
+            <GameButton variant="primary" className="bf-lobby-start" onClick={() => setScreen('game')}>
               Start Match
-            </button>
+            </GameButton>
           </aside>
-          <div className="bf-game-container">
-            <p style={{ color: '#666' }}>Configure match in sidebar, then press Start Match</p>
+          <div className="bf-lobby-preview">
+            <div className="bf-lobby-preview-frame">
+              <div className="bf-wood-frame">
+                <ArenaScene theme="kitchen" showSliceFx showScorePop />
+              </div>
+            </div>
+            <p className="bf-lobby-preview-hint">Configure match, then press Start Match</p>
+            <div className="bf-lobby-slots">
+              <PlayerSlots compact />
+            </div>
           </div>
         </div>
       )}
 
       {screen === 'game' && (
-        <div className="bf-main">
+        <div className="bf-main bf-main--game">
           <GameCanvas
             mode={mode}
             arenaId={arenaId}
@@ -230,14 +265,34 @@ export default function PlayPage() {
   );
 }
 
-function MenuScreen({ onSelectMode }: { onSelectMode: (mode: GameModeId) => void }) {
-  const modes: GameModeId[] = ['freeForAll', 'teams', 'goldenBoomerang', 'hideAndSeek'];
+function MenuScreen({
+  selectedMode,
+  onSelectMode,
+}: {
+  selectedMode: GameModeId;
+  onSelectMode: (mode: GameModeId) => void;
+}) {
   return (
     <div className="bf-screen-menu">
-      <h2>Select Game Mode</h2>
-      {modes.map((m) => (
-        <button key={m} onClick={() => onSelectMode(m)}>{modeLabel(m)}</button>
-      ))}
+      <TitleBackground variant="full" />
+      <div className="bf-screen-menu-inner">
+        <Link to="/" className="bf-btn bf-btn--ghost bf-btn--sm bf-menu-home">
+          <span className="bf-btn-face">← Title</span>
+        </Link>
+        <GameLogo size="lg" />
+        <PlayerSlots />
+        <div className="bf-wood-frame" style={{ width: '100%' }}>
+          <div className="bf-panel" style={{ padding: '20px 16px' }}>
+            <ModeSelectList
+              selected={selectedMode}
+              onSelect={onSelectMode}
+            />
+          </div>
+        </div>
+        <p className="bf-press-start" aria-hidden="true">
+          <span className="bf-press-start-blink">Press A to Confirm</span>
+        </p>
+      </div>
     </div>
   );
 }
@@ -305,7 +360,9 @@ function GameCanvas({
 
   return (
     <div className="bf-game-container">
-      <button type="button" className="bf-back-btn" onClick={onExit}>← Lobby</button>
+      <GameButton variant="secondary" size="sm" className="bf-back-btn" onClick={onExit}>
+        ← Lobby
+      </GameButton>
       <div ref={containerRef} data-testid="game-canvas" />
     </div>
   );

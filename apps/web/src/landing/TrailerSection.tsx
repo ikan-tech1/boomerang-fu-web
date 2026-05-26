@@ -1,35 +1,21 @@
-import { Link } from 'react-router-dom';
+import { GameButton } from './GameButton';
+import { ArenaScene } from './ArenaScene';
 
 export function TrailerSection() {
   return (
-    <section className="lp-trailer" aria-labelledby="trailer-title">
-      <div className="lp-section-header">
-        <span className="lp-section-label">Gameplay</span>
-        <h2 id="trailer-title">See the Chaos Unfold</h2>
-        <p>Fast rounds, bouncing boomerangs, and instant eliminations. Jump in and experience it yourself.</p>
-      </div>
-      <div className="lp-trailer-frame">
-        <div className="lp-trailer-scene">
-          <div className="lp-trailer-hud">
-            <span className="lp-trailer-timer">1:42</span>
-            <div className="lp-trailer-score">
-              <span>🥑 4</span>
-              <span>🍌 3</span>
-              <span>🍎 2</span>
-            </div>
+    <section className="bf-panel-section bf-attract-mode" aria-labelledby="attract-title">
+      <div className="bf-wood-frame bf-panel">
+        <header className="bf-panel-header">
+          <h2 id="attract-title">Attract Mode</h2>
+          <p>Fast rounds, bouncing boomerangs, instant eliminations — no download required.</p>
+        </header>
+        <div className="bf-attract-frame">
+          <ArenaScene theme="grass" showSliceFx showScorePop />
+          <div className="bf-attract-overlay">
+            <GameButton to="/play" variant="primary" size="lg">
+              Play Now
+            </GameButton>
           </div>
-          <div className="lp-trailer-playfield">
-            <span className="lp-trailer-entity e1" aria-hidden="true">🥑</span>
-            <span className="lp-trailer-entity e2" aria-hidden="true">🍌</span>
-            <span className="lp-trailer-entity e3" aria-hidden="true">🍩</span>
-            <span className="lp-trailer-boom" aria-hidden="true">🪃</span>
-          </div>
-        </div>
-        <div className="lp-trailer-overlay">
-          <Link to="/play" className="lp-trailer-play-icon" aria-label="Play the game">
-            ▶
-          </Link>
-          <p>Live gameplay · No download required</p>
         </div>
       </div>
     </section>

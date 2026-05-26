@@ -1,51 +1,56 @@
 import { CONTROLS } from './content';
+import { GameButton } from './GameButton';
 
 export function HowToPlay() {
   return (
-    <section id="how-to-play" className="lp-section" aria-labelledby="controls-title">
-      <div className="lp-section-header">
-        <span className="lp-section-label">Controls</span>
-        <h2 id="controls-title">Master the Boomerang</h2>
-        <p>One-hit kills. Charge your throw. Recall mid-flight. Dash through danger. Simple to learn, brutal to master.</p>
-      </div>
-      <div className="lp-controls-layout">
-        <div className="lp-keyboard" aria-label="Keyboard layout preview">
-          <div className="lp-keyboard-visual">
-            <div className="lp-key-row">
-              <span className="lp-key">W</span>
+    <section id="controls" className="bf-panel-section">
+      <div className="bf-wood-frame bf-panel">
+        <header className="bf-panel-header">
+          <h2 id="controls-title">Controls</h2>
+          <p>One-hit kills. Charge your throw. Recall mid-flight. Dash through danger.</p>
+        </header>
+        <div className="bf-controls-screen">
+          <div className="bf-keyboard-panel" aria-label="Keyboard layout preview">
+            <div className="bf-keyboard">
+              <div className="bf-key-row">
+                <kbd className="bf-key">W</kbd>
+              </div>
+              <div className="bf-key-row">
+                <kbd className="bf-key bf-key--lit">A</kbd>
+                <kbd className="bf-key">S</kbd>
+                <kbd className="bf-key">D</kbd>
+              </div>
+              <div className="bf-key-row">
+                <kbd className="bf-key bf-key--wide">Shift</kbd>
+                <kbd className="bf-key bf-key--wide">Space</kbd>
+              </div>
+              <div className="bf-key-row">
+                <kbd className="bf-key">E</kbd>
+                <kbd className="bf-key">R</kbd>
+              </div>
             </div>
-            <div className="lp-key-row">
-              <span className="lp-key active">A</span>
-              <span className="lp-key">S</span>
-              <span className="lp-key">D</span>
-            </div>
-            <div className="lp-key-row">
-              <span className="lp-key wide">Shift</span>
-              <span className="lp-key wide">Space</span>
-            </div>
-            <div className="lp-key-row">
-              <span className="lp-key">E</span>
-              <span className="lp-key">R</span>
-            </div>
+            <p className="bf-keyboard-note">Player 1 · Gamepad supported in lobby</p>
           </div>
-          <p style={{ textAlign: 'center', fontSize: '0.85rem', color: 'var(--lp-text-muted)' }}>
-            Player 1 keyboard · Gamepad supported in lobby
-          </p>
+          <ul className="bf-control-rows" role="list">
+            {CONTROLS.map((c) => (
+              <li key={c.label} className="bf-control-row">
+                <div className="bf-control-keys">
+                  {c.keys.map((k) => (
+                    <kbd key={k}>{k}</kbd>
+                  ))}
+                </div>
+                <div>
+                  <strong>{c.label}</strong>
+                  <span>{c.detail}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="lp-control-list" role="list">
-          {CONTROLS.map((c) => (
-            <div key={c.label} className="lp-control-item" role="listitem">
-              <div className="lp-control-keys" aria-label={c.keys.join(' ')}>
-                {c.keys.map((k) => (
-                  <span key={k}>{k}</span>
-                ))}
-              </div>
-              <div>
-                <strong>{c.label}</strong>
-                <span>{c.detail}</span>
-              </div>
-            </div>
-          ))}
+        <div className="bf-panel-cta">
+          <GameButton to="/play" variant="primary">
+            Jump In
+          </GameButton>
         </div>
       </div>
     </section>
