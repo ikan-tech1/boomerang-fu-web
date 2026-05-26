@@ -1,5 +1,7 @@
 /** Chunky food fighter with disconnected limbs — CSS/SVG, no emoji. */
 
+import type { CSSProperties } from 'react';
+
 export interface FoodFighterProps {
   color: string;
   accent?: string;
@@ -27,7 +29,7 @@ export function FoodFighterSprite({
       className={`bf-fighter ${shapeClass} bf-fighter--${anim} ${flip} ${className}`.trim()}
       aria-hidden={!label}
       aria-label={label}
-      style={{ '--fighter-color': color, '--fighter-accent': accent } as React.CSSProperties}
+      style={{ '--fighter-color': color, '--fighter-accent': accent } as CSSProperties}
     >
       <div className="bf-fighter-shadow" />
       <div className="bf-fighter-limb bf-fighter-limb--arm-l" />

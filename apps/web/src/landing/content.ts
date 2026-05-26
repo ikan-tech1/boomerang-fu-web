@@ -134,10 +134,10 @@ export function getArenasByTheme(theme: string) {
 
 export function getNavSections() {
   return [
-    { id: 'characters', label: 'Fighters' },
+    { id: 'fighters', label: 'Fighters' },
     { id: 'modes', label: 'Modes' },
     { id: 'powerups', label: 'Power-Ups' },
     { id: 'arenas', label: 'Arenas' },
-    { id: 'how-to-play', label: 'Controls' },
+    { id: 'controls', label: 'Controls' },
   ];
 }

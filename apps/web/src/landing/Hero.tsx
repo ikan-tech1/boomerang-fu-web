@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { TAGLINE } from './content';
 import { GameButton } from './GameButton';
 import { ArenaScene } from './ArenaScene';
