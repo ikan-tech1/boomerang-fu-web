@@ -1,5 +1,15 @@
 import Phaser from 'phaser';
 
+/** Six launch characters get extra silhouette + eye pass for couch readability */
+const CORE_SILHOUETTE_IDS = new Set([
+  'avocado',
+  'banana',
+  'apple',
+  'orange',
+  'watermelon',
+  'pineapple',
+]);
+
 /** Procedural food silhouettes — distinct readable shapes per character id */
 export function createFoodSprite(
   scene: Phaser.Scene,
@@ -8,15 +18,46 @@ export function createFoodSprite(
   radius: number,
 ): Phaser.GameObjects.Container {
   const g = scene.add.graphics();
-  g.fillStyle(colorHex, 1);
-  g.lineStyle(2, 0xffffff, 1);
-
   const draw = SHAPE_DRAWERS[characterId] ?? drawGenericFruit;
-  draw(g, radius);
+
+  if (CORE_SILHOUETTE_IDS.has(characterId)) {
+    drawSilhouetteBody(g, colorHex, radius, () => draw(g, radius));
+    addFacingEyes(g, radius);
+  } else {
+    g.fillStyle(colorHex, 1);
+    g.lineStyle(2, 0xffffff, 1);
+    draw(g, radius);
+  }
 
   const container = scene.add.container(0, 0, [g]);
   container.setSize(radius * 2, radius * 2);
   return container;
+}
+
+/** Dark outer stroke so food reads at zoom-out / motion blur */
+function drawSilhouetteBody(
+  g: Phaser.GameObjects.Graphics,
+  colorHex: number,
+  radius: number,
+  drawShape: () => void,
+): void {
+  g.lineStyle(Math.max(3, Math.round(radius * 0.22)), 0x14141f, 1);
+  drawShape();
+  g.fillStyle(colorHex, 1);
+  drawShape();
+  g.lineStyle(2, 0xffffff, 0.95);
+  drawShape();
+}
+
+function addFacingEyes(g: Phaser.GameObjects.Graphics, r: number): void {
+  const y = -r * 0.12;
+  const spacing = r * 0.28;
+  g.fillStyle(0x14141f, 1);
+  g.fillCircle(-spacing, y, r * 0.14);
+  g.fillCircle(spacing, y, r * 0.14);
+  g.fillStyle(0xffffff, 1);
+  g.fillCircle(-spacing + 1, y - 1, r * 0.06);
+  g.fillCircle(spacing + 1, y - 1, r * 0.06);
 }
 
 type ShapeDrawer = (g: Phaser.GameObjects.Graphics, r: number) => void;
@@ -30,13 +71,14 @@ const drawAvocado: ShapeDrawer = (g, r) => {
   g.fillEllipse(0, 2, r * 1.1, r * 1.35);
   g.fillStyle(0x3d2817, 1);
   g.fillCircle(0, 0, r * 0.45);
-  g.lineStyle(2, 0xffffff, 1);
-  g.strokeEllipse(0, 2, r * 1.1, r * 1.35);
+  g.fillStyle(0x6b8e23, 1);
+  g.fillCircle(0, -r * 1.15, r * 0.2);
 };
 
 const drawBanana: ShapeDrawer = (g, r) => {
-  g.fillEllipse(-r * 0.2, 0, r * 1.5, r * 0.65);
-  g.strokeEllipse(-r * 0.2, 0, r * 1.5, r * 0.65);
+  g.fillEllipse(-r * 0.15, 0, r * 1.55, r * 0.62);
+  g.fillStyle(0x8b6914, 1);
+  g.fillEllipse(-r * 0.95, -r * 0.05, r * 0.35, r * 0.2);
 };
 
 const drawApple: ShapeDrawer = (g, r) => {
@@ -69,10 +111,14 @@ const drawWatermelon: ShapeDrawer = (g, r) => {
 
 const drawPineapple: ShapeDrawer = (g, r) => {
   g.fillRoundedRect(-r * 0.7, -r * 0.2, r * 1.4, r * 1.1, 6);
+  g.lineStyle(1, 0xc4a035, 0.7);
+  for (let row = 0; row < 4; row++) {
+    for (let col = 0; col < 3; col++) {
+      g.strokeRect(-r * 0.55 + col * (r * 0.35), -r * 0.05 + row * (r * 0.22), r * 0.28, r * 0.18);
+    }
+  }
   g.fillStyle(0x2d6a2d, 1);
-  g.fillTriangle(-r * 0.5, -r, 0, -r * 1.5, r * 0.5, -r);
-  g.lineStyle(2, 0xffffff, 1);
-  g.strokeRoundedRect(-r * 0.7, -r * 0.2, r * 1.4, r * 1.1, 6);
+  g.fillTriangle(-r * 0.5, -r, 0, -r * 1.55, r * 0.5, -r);
 };
 
 const drawStrawberry: ShapeDrawer = (g, r) => {

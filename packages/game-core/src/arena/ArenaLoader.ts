@@ -122,6 +122,8 @@ export class TrapSystem {
   private readonly killVolumes: ArenaData['killVolumes'] = [];
   private readonly breakableDestroyed = new Set<string>();
   private readonly doorOpen = new Map<string, boolean>();
+  private readonly trapSprites = new Map<string, Phaser.GameObjects.Rectangle>();
+  private readonly oobGraceMs = new Map<number, number>();
   private time = 0;
   private teleCooldown = new Map<number, number>();
 
@@ -132,24 +134,49 @@ export class TrapSystem {
     this.killVolumes.length = 0;
     this.breakableDestroyed.clear();
     this.doorOpen.clear();
+    this.oobGraceMs.clear();
+    for (const sprite of this.trapSprites.values()) sprite.destroy();
+    this.trapSprites.clear();
     this.traps.push(...arena.hazards);
+    for (const trap of arena.hazards) {
+      if (trap.type === 'oobBoundary') {
+        this.killVolumes.push({
+          type: 'oobBoundary',
+          x: (trap.x ?? 0) - (trap.width ?? 40) / 2,
+          y: (trap.y ?? 0) - (trap.height ?? 40) / 2,
+          width: trap.width ?? 40,
+          height: trap.height ?? 40,
+          scoresKill: true,
+        });
+      }
+    }
     this.killVolumes.push(...arena.killVolumes);
     this.renderTraps(arena);
   }
 
   private renderTraps(arena: ArenaData): void {
     for (const trap of arena.hazards) {
+      if (trap.type === 'oobBoundary') {
+        const w = trap.width ?? 40;
+        const h = trap.height ?? 40;
+        const rect = this.scene.add.rectangle(trap.x, trap.y, w, h, 0xff0000, 0.15);
+        rect.setStrokeStyle(2, 0xff6666, 0.9);
+        this.trapSprites.set(trap.id, rect);
+        continue;
+      }
       if (trap.properties?.isDoor && !this.doorOpen.get(String(trap.properties.doorId ?? trap.id))) {
         const w = trap.width ?? 40;
         const h = trap.height ?? 40;
         const rect = this.scene.add.rectangle(trap.x, trap.y, w, h, 0x444444, 0.9);
         rect.setStrokeStyle(2, 0xaaaaaa);
+        this.trapSprites.set(trap.id, rect);
       } else if (!trap.properties?.isDoor) {
         const color = trapColor(trap.type);
         const w = trap.width ?? 40;
         const h = trap.height ?? 40;
         const rect = this.scene.add.rectangle(trap.x, trap.y, w, h, color, 0.5);
         rect.setStrokeStyle(1, color);
+        this.trapSprites.set(trap.id, rect);
       }
     }
     for (const kv of arena.killVolumes) {
@@ -171,11 +198,17 @@ export class TrapSystem {
   }
 
   private updateTrap(trap: TrapPrefab): void {
+    const sprite = this.trapSprites.get(trap.id);
     switch (trap.type) {
       case 'movingPlatform': {
         const originX = (trap.properties?.originX as number) ?? trap.x;
         const offset = Math.sin(this.time / 1000) * 60;
         trap.x = originX + offset;
+        sprite?.setPosition(trap.x, trap.y);
+        break;
+      }
+      case 'spinner': {
+        if (sprite) sprite.setRotation(this.time / 180);
         break;
       }
       case 'crusher': {
@@ -257,15 +290,24 @@ export class TrapSystem {
 
   private checkKillVolumes(): void {
     const players = this.scene.players ?? [];
+    const dt = 16;
     for (const player of players) {
       if (!player.alive) continue;
+      const px = player.body.position.x;
+      const py = player.body.position.y;
+      let inOob = false;
       for (const kv of this.killVolumes) {
-        const px = player.body.position.x;
-        const py = player.body.position.y;
-        if (px >= kv.x && px <= kv.x + kv.width && py >= kv.y && py <= kv.y + kv.height) {
+        if (px < kv.x || px > kv.x + kv.width || py < kv.y || py > kv.y + kv.height) continue;
+        if (kv.type === 'oobBoundary') {
+          inOob = true;
+          const grace = (this.oobGraceMs.get(player.id) ?? 0) + dt;
+          this.oobGraceMs.set(player.id, grace);
+          if (grace >= 1200) player.takeHit(null, 'environment');
+        } else {
           player.takeHit(null, 'environment');
         }
       }
+      if (!inOob) this.oobGraceMs.delete(player.id);
     }
   }
 }

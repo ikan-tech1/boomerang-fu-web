@@ -9,7 +9,7 @@
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint .",
     "test:e2e": "playwright test",
-    "test:unit": "tsx packages/game-core/tests/replay-determinism.ts",
+    "test:unit": "tsx packages/game-core/tests/replay-determinism.ts && tsx packages/game-core/tests/tiled-loader.ts && tsx apps/server/tests/sim-two-player-smoke.ts",
     "server": "pnpm --filter @boomerang/server dev"
   },
   "devDependencies": {
