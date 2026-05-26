@@ -77,7 +77,14 @@ export class PlayerEntity {
   }
 
   applyInput(buttons: InputButtons, dt: number): void {
-    if (!this.alive || this.frozen) return;
+    if (!this.alive) return;
+    if (this.frozen) {
+      if (buttons.dash && this.dashCooldown <= 0) {
+        this.frozen = false;
+        this.startDash();
+      }
+      return;
+    }
 
     if (buttons.dash && this.dashCooldown <= 0) {
       this.startDash();
@@ -141,6 +148,9 @@ export class PlayerEntity {
     this.sprite.setPosition(this.body.position.x, this.body.position.y);
     const angle = Math.atan2(this.aimY, this.aimX);
     this.sprite.setRotation(angle);
+    this.sprite.setAlpha(this.disguised ? 0.35 : 1);
+    const scale = this.disguised ? 0.85 : 1;
+    this.sprite.setScale(scale);
   }
 
   private applyMovement(dt: number): void {
@@ -224,7 +234,11 @@ export class PlayerEntity {
     }
   }
 
-  takeHit(killer: PlayerEntity | null, source: 'boomerang' | 'melee' | 'explosion' | 'environment'): void {
+  takeHit(
+    killer: PlayerEntity | null,
+    source: 'boomerang' | 'melee' | 'explosion' | 'environment',
+    options?: { countKill?: boolean },
+  ): void {
     if (!this.alive || this.iFrames > 0) return;
     if (this.inventory.consumeShield()) return;
 
@@ -234,7 +248,8 @@ export class PlayerEntity {
     this.sprite.setVisible(false);
     this.boomerang.onOwnerDeath();
 
-    if (killer && source !== 'environment') {
+    const countKill = options?.countKill ?? true;
+    if (killer && source !== 'environment' && countKill) {
       killer.kills += 1;
       killer.score += this.hasGoldenBoomerang ? 3 : 1;
     }

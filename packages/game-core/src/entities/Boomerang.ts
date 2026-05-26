@@ -77,6 +77,17 @@ export class BoomerangEntity {
     }
   }
 
+  /** Remote steering from telekinesis — recall homing takes precedence when recalled. */
+  steerToward(aimX: number, aimY: number, strength: number): void {
+    if (this.state === 'held' || this.state === 'dropped' || this.state === 'recalled') return;
+    const len = Math.hypot(aimX, aimY) || 1;
+    const targetVx = (aimX / len) * balance.boomerang.maxThrowSpeed;
+    const targetVy = (aimY / len) * balance.boomerang.maxThrowSpeed;
+    this.vx = Phaser.Math.Linear(this.vx, targetVx, strength);
+    this.vy = Phaser.Math.Linear(this.vy, targetVy, strength);
+    this.state = 'bouncing';
+  }
+
   update(dt: number): void {
     if (this.state === 'held' || !this.body || !this.sprite) return;
 

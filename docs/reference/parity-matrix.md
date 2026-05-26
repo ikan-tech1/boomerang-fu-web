@@ -1,48 +1,63 @@
 # Parity Matrix
 
 > Track feature parity between reference (commercial Boomerang Fu) and web recreation.
-> Update status as features ship.
+> Last updated: 2026-05-27
 
-| Feature | Reference | Web | Status |
-|---------|-----------|-----|--------|
-| Move/aim controls | ✓ | ✓ | Implemented |
-| Dash + i-frames | ✓ | ✓ | Implemented |
-| Melee arc/deflect | ✓ | ✓ | Implemented |
-| Throw + charge | ✓ | ✓ | Implemented |
-| Recall | ✓ | ✓ | Implemented |
-| Boomerang bounce/return | ✓ | ✓ | Implemented |
-| One-hit kill | ✓ | ✓ | Implemented |
-| Shield power-up | ✓ | ✓ | Implemented |
-| Fire power-up | ✓ | ✓ | Stub VFX |
-| Ice power-up | ✓ | ✓ | Implemented |
-| Explosive power-up | ✓ | ✓ | Implemented |
-| Teleport power-up | ✓ | ✓ | Implemented |
-| Telekinesis | ✓ | ◐ | Inventory only |
-| Disguise | ✓ | ◐ | Flag only |
-| Decoy | ✓ | ✓ | Basic clone |
-| Battle Royale zone | ✓ | ◐ | Inventory only |
-| Spam Dash | ✓ | ✓ | Implemented |
-| Golden Boomerang | ✓ | ◐ | Mode + pickup |
-| Magnet | ✓ | ✓ | Implemented |
-| Multi Throw | ✓ | ✓ | Implemented |
-| Free-for-All mode | ✓ | ✓ | Implemented |
-| Teams mode | ✓ | ◐ | Mode shell |
-| Golden Boomerang mode | ✓ | ◐ | Timer spawn |
-| Hide & Seek mode | ✓ | ◐ | Phase timer |
-| 20 characters | ✓ | ◐ | Placeholder sprites |
-| 50+ arenas | ✓ | ◐ | 3 samples |
-| Bot AI | ✓ | ✓ | Basic chase/throw |
-| Local 6P | ✓ | ◐ | 2P keyboard + gamepad |
-| Online multiplayer | ✓ | ◐ | Colyseus stub |
-| SFX/Music | ✓ | ◐ | Howler stub |
-| Rules editor | ✓ | ◐ | Lobby toggles |
-| XP/unlocks | ✓ | ✗ | Not started |
-| Map select | ✓ | ✓ | Lobby dropdown |
-| Death slice VFX | ✓ | ✓ | Basic particles |
-| Debug overlays | — | ✓ | Implemented |
-| Playwright QA | — | ✓ | Smoke test |
+| Feature | Reference | Web | Status | Est. % |
+|---------|-----------|-----|--------|--------|
+| Move/aim controls | ✓ | ✓ | Implemented | 90% |
+| Dash + i-frames | ✓ | ✓ | Implemented | 85% |
+| Melee arc/deflect | ✓ | ✓ | Implemented | 80% |
+| Throw + charge | ✓ | ✓ | Implemented | 85% |
+| Recall | ✓ | ✓ | Implemented | 85% |
+| Boomerang bounce/return | ✓ | ✓ | Implemented | 75% |
+| One-hit kill | ✓ | ✓ | Implemented | 90% |
+| Shield power-up | ✓ | ✓ | Implemented | 90% |
+| Fire power-up | ✓ | ✓ | Basic VFX spread | 70% |
+| Ice power-up | ✓ | ✓ | Freeze + dash break | 75% |
+| Explosive power-up | ✓ | ✓ | Implemented | 80% |
+| Teleport power-up | ✓ | ✓ | Implemented | 75% |
+| Telekinesis | ✓ | ✓ | Radius steer sim | 70% |
+| Disguise | ✓ | ✓ | Alpha/scale + reveal | 65% |
+| Decoy | ✓ | ✓ | Basic clone | 60% |
+| Battle Royale zone | ✓ | ✓ | Shrinking ring + OOB kill | 70% |
+| Spam Dash | ✓ | ✓ | Implemented | 85% |
+| Golden Boomerang | ✓ | ✓ | Mode spawn + slow | 65% |
+| Magnet | ✓ | ✓ | Implemented | 80% |
+| Multi Throw | ✓ | ✓ | Implemented | 75% |
+| Free-for-All mode | ✓ | ✓ | Implemented | 85% |
+| Teams mode | ✓ | ✓ | Team scoring + FF toggle | 70% |
+| Golden Boomerang mode | ✓ | ✓ | Timer spawn + bonus pts | 65% |
+| Hide & Seek mode | ✓ | ✓ | Hide/seek phases + disguise | 60% |
+| 20 characters | ✓ | ◐ | Color circles, all in data | 25% |
+| 50+ arenas | ✓ | ◐ | 3 JSON samples + traps | 8% |
+| Bot AI | ✓ | ✓ | Chase/throw + difficulty tiers | 55% |
+| Local 6P | ✓ | ◐ | Keyboard 2P + gamepad mux | 45% |
+| Online multiplayer | ✓ | ◐ | Colyseus room stub | 15% |
+| SFX/Music | ✓ | ◐ | Howler stub keys | 20% |
+| Rules editor | ✓ | ◐ | Lobby toggles | 35% |
+| XP/unlocks | ✓ | ◐ | IndexedDB profile + char unlocks | 40% |
+| Map select | ✓ | ✓ | Lobby dropdown | 80% |
+| Death slice VFX | ✓ | ✓ | Basic particles | 50% |
+| Debug overlays | — | ✓ | Implemented | 95% |
+| Playwright QA | — | ✓ | Smoke test | 30% |
 
 **Legend**: ✓ Complete · ◐ Partial/Stub · ✗ Not started
+
+## Domain Summary (2026-05-27)
+
+| Domain | Est. Complete |
+|--------|---------------|
+| Combat / physics | **78%** |
+| Power-ups (13) | **74%** |
+| Game modes (4) | **70%** |
+| Arenas / traps | **12%** |
+| Characters / art | **25%** |
+| Multiplayer | **30%** |
+| Audio | **20%** |
+| UI / meta | **55%** |
+| QA / fidelity | **30%** |
+| **Overall** | **~42%** |
 
 ## Tuning Targets
 
@@ -53,7 +68,7 @@
 ## Next Priority
 
 1. Physics tuning pass against reference footage
-2. Telekinesis + Battle Royale zone simulation
-3. Full Teams/Hide & Seek mode logic
-4. Authoritative server sim
-5. Asset pipeline (atlases, audio banks)
+2. Authoritative Colyseus server sim + room codes
+3. Arena batch pipeline (10 trap archetypes)
+4. Character sprite atlases + silhouette readability
+5. SFX/music bank recreation

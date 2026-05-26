@@ -2,6 +2,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { balance } from '@boomerang/content';
 import { createGame, type GameModeId } from '@boomerang/game-core';
 import type Phaser from 'phaser';
+import {
+  awardMatchXp,
+  loadProfile,
+  saveProfile,
+  type PlayerProfile,
+} from './progress/ProfileStore';
 
 type Screen = 'menu' | 'lobby' | 'game';
 
@@ -13,11 +19,28 @@ export default function App() {
   const [characterId, setCharacterId] = useState('avocado');
   const [botCount, setBotCount] = useState(1);
   const [friendlyFire, setFriendlyFire] = useState(false);
+  const [profile, setProfile] = useState<PlayerProfile | null>(null);
+
+  useEffect(() => {
+    loadProfile().then(setProfile);
+  }, []);
+
+  const onMatchEnd = useCallback(async (kills: number) => {
+    const current = profile ?? (await loadProfile());
+    const updated = awardMatchXp(current, kills);
+    await saveProfile(updated);
+    setProfile(updated);
+  }, [profile]);
 
   return (
     <div className="bf-app">
       <header className="bf-header">
         <h1>Boomerang Fu Web</h1>
+        {profile && (
+          <span className="bf-xp-badge">
+            Lv {profile.level} · {profile.xp} XP · {profile.matchesPlayed} matches
+          </span>
+        )}
         <nav className="bf-nav">
           <button className={screen === 'menu' ? 'active' : ''} onClick={() => setScreen('menu')}>
             Menu
@@ -50,17 +73,19 @@ export default function App() {
             <label>
               Character
               <div className="bf-char-grid">
-                {balance.characters.slice(0, 12).map((c) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    className={`bf-char-btn ${characterId === c.id ? 'selected' : ''}`}
-                    style={{ background: c.color }}
-                    onClick={() => setCharacterId(c.id)}
-                  >
-                    {c.name.slice(0, 5)}
-                  </button>
-                ))}
+                {balance.characters
+                  .filter((c) => profile?.unlockedCharacters.includes(c.id) ?? true)
+                  .map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      className={`bf-char-btn ${characterId === c.id ? 'selected' : ''}`}
+                      style={{ background: c.color }}
+                      onClick={() => setCharacterId(c.id)}
+                    >
+                      {c.name.slice(0, 5)}
+                    </button>
+                  ))}
               </div>
             </label>
             <label>
@@ -73,14 +98,16 @@ export default function App() {
                 onChange={(e) => setBotCount(Number(e.target.value))}
               />
             </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={friendlyFire}
-                onChange={(e) => setFriendlyFire(e.target.checked)}
-              />
-              Friendly Fire
-            </label>
+            {mode === 'teams' && (
+              <label>
+                <input
+                  type="checkbox"
+                  checked={friendlyFire}
+                  onChange={(e) => setFriendlyFire(e.target.checked)}
+                />
+                Friendly Fire
+              </label>
+            )}
             <label>
               <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />
               Debug Overlay
@@ -106,7 +133,16 @@ export default function App() {
 
       {screen === 'game' && (
         <div className="bf-main">
-          <GameCanvas mode={mode} arenaId={arenaId} debug={debug} />
+          <GameCanvas
+            mode={mode}
+            arenaId={arenaId}
+            debug={debug}
+            botCount={botCount}
+            characterId={characterId}
+            friendlyFire={friendlyFire}
+            onMatchEnd={onMatchEnd}
+            onExit={() => setScreen('lobby')}
+          />
         </div>
       )}
     </div>
@@ -129,25 +165,47 @@ function GameCanvas({
   mode,
   arenaId,
   debug,
+  botCount,
+  characterId,
+  friendlyFire,
+  onMatchEnd,
+  onExit,
 }: {
   mode: GameModeId;
   arenaId: string;
   debug: boolean;
+  botCount: number;
+  characterId: string;
+  friendlyFire: boolean;
+  onMatchEnd: (kills: number) => void;
+  onExit: () => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<Phaser.Game | null>(null);
+  const awardedRef = useRef(false);
 
   const launch = useCallback(() => {
     if (!containerRef.current) return;
     gameRef.current?.destroy(true);
-    gameRef.current = createGame(containerRef.current, {
+    awardedRef.current = false;
+    const game = createGame(containerRef.current, {
       width: 960,
       height: 600,
       debug,
       mode,
       arenaId,
+      botCount,
+      characterId,
+      friendlyFire,
     });
-  }, [mode, arenaId, debug]);
+    game.events.on('round-end', (data: { players: { id: number; kills: number; isBot: boolean }[] }) => {
+      if (awardedRef.current) return;
+      awardedRef.current = true;
+      const human = data.players.find((p) => !p.isBot);
+      onMatchEnd(human?.kills ?? 0);
+    });
+    gameRef.current = game;
+  }, [mode, arenaId, debug, botCount, characterId, friendlyFire, onMatchEnd]);
 
   useEffect(() => {
     launch();
@@ -159,6 +217,7 @@ function GameCanvas({
 
   return (
     <div className="bf-game-container">
+      <button type="button" className="bf-back-btn" onClick={onExit}>← Lobby</button>
       <div ref={containerRef} data-testid="game-canvas" />
     </div>
   );

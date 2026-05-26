@@ -8,6 +8,8 @@ export interface GameLaunchOptions {
   arenaId?: string;
   playerCount?: number;
   botCount?: number;
+  characterId?: string;
+  friendlyFire?: boolean;
 }
 
 export type BoomerangState =

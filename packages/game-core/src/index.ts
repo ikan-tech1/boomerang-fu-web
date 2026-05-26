@@ -14,8 +14,16 @@ export function createGame(
   parent: HTMLElement | string,
   options: GameLaunchOptions = {},
 ): Phaser.Game {
-  const { width = 960, height = 540, debug = false, mode = 'freeForAll', arenaId = 'kitchen-classic' } =
-    options;
+  const {
+    width = 960,
+    height = 540,
+    debug = false,
+    mode = 'freeForAll',
+    arenaId = 'kitchen-classic',
+    botCount = 1,
+    characterId = 'avocado',
+    friendlyFire = false,
+  } = options;
 
   return new Phaser.Game({
     type: Phaser.AUTO,
@@ -37,7 +45,14 @@ export function createGame(
     },
     callbacks: {
       preBoot: (game) => {
-        game.registry.set('launchOptions', { debug, mode, arenaId });
+        game.registry.set('launchOptions', {
+          debug,
+          mode,
+          arenaId,
+          botCount,
+          characterId,
+          friendlyFire,
+        });
       },
     },
   });

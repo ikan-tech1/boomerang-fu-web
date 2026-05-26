@@ -3,11 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "resolveJsonModule": true,
-    "paths": {
-      "@boomerang/content": ["../content/src/index.ts"],
-      "@boomerang/netcode": ["../netcode/src/index.ts"]
-    }
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"]
 }

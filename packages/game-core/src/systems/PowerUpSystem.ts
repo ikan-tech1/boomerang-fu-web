@@ -16,9 +16,11 @@ export class PowerUpSystem {
   private readonly pickups: WorldPowerUp[] = [];
   private spawnTimer = 0;
   private readonly scene: Phaser.Scene;
+  private onBattleRoyaleActivate?: () => void;
 
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene, onBattleRoyaleActivate?: () => void) {
     this.scene = scene;
+    this.onBattleRoyaleActivate = onBattleRoyaleActivate;
     this.spawnTimer = balance.match.powerUpSpawnIntervalSec * 1000;
   }
 
@@ -68,6 +70,11 @@ export class PowerUpSystem {
       case 'ice':
         break;
       case 'fire':
+        break;
+      case 'battleRoyale':
+        this.onBattleRoyaleActivate?.();
+        break;
+      case 'telekinesis':
         break;
       default:
         break;
@@ -128,9 +135,11 @@ export function applyHitPowerUps(
   attacker: PlayerEntity,
   victim: PlayerEntity,
   scene: Phaser.Scene,
+  countKill = true,
 ): void {
+  const scoreOpts = { countKill };
   if (attacker.inventory.has('fire')) {
-    victim.takeHit(attacker, 'boomerang');
+    victim.takeHit(attacker, 'boomerang', scoreOpts);
     spreadFire(scene, victim.body.position.x, victim.body.position.y);
   } else if (attacker.inventory.has('ice')) {
     victim.frozen = true;
@@ -140,9 +149,9 @@ export function applyHitPowerUps(
       victim.frozen = false;
     });
   } else if (attacker.inventory.has('explosive')) {
-    explodeAt(scene, victim.body.position.x, victim.body.position.y, attacker);
+    explodeAt(scene, victim.body.position.x, victim.body.position.y, attacker, countKill);
   } else {
-    victim.takeHit(attacker, 'boomerang');
+    victim.takeHit(attacker, 'boomerang', scoreOpts);
   }
 
   if (victim.disguised) {
@@ -155,13 +164,13 @@ function spreadFire(scene: Phaser.Scene, x: number, y: number): void {
   scene.tweens.add({ targets: flame, alpha: 0, scale: 2, duration: 400, onComplete: () => flame.destroy() });
 }
 
-function explodeAt(scene: Phaser.Scene, x: number, y: number, attacker: PlayerEntity): void {
+function explodeAt(scene: Phaser.Scene, x: number, y: number, attacker: PlayerEntity, countKill = true): void {
   const boom = scene.add.circle(x, y, 30, 0xff8800, 0.7);
   scene.tweens.add({ targets: boom, alpha: 0, scale: 3, duration: 300, onComplete: () => boom.destroy() });
   const players = (scene as Phaser.Scene & { players?: PlayerEntity[] }).players ?? [];
   for (const p of players) {
     if (!p.alive) continue;
     const dist = Math.hypot(p.body.position.x - x, p.body.position.y - y);
-    if (dist < 60) p.takeHit(attacker, 'explosion');
+    if (dist < 60) p.takeHit(attacker, 'explosion', { countKill });
   }
 }

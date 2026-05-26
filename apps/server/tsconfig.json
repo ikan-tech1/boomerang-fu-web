@@ -4,10 +4,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "paths": {
-      "@boomerang/netcode": ["../../packages/netcode/src/index.ts"]
-    }
+    "moduleResolution": "NodeNext"
   },
   "include": ["src/**/*"]
 }

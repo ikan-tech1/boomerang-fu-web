@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import type { PlayerEntity } from '../entities/Player';
+import type { GameModeManager } from '../modes/GameModeManager';
 import { POWER_UP_LABELS } from '../systems/PowerUpInventory';
 
 export class DebugOverlay {
@@ -79,13 +80,26 @@ export class HudOverlay {
   }
 
   update(
-    roundTimerMs: number,
-    modeLabel: string,
+    modeManager: GameModeManager,
     players: PlayerEntity[],
   ): void {
-    const sec = Math.ceil(roundTimerMs / 1000);
+    const sec = Math.ceil(modeManager.state.roundTimerMs / 1000);
+    const phase = modeManager.getPhaseLabel();
     this.timerText.setText(`⏱ ${sec}s`);
-    this.modeText.setText(modeLabel);
+    this.modeText.setText(
+      phase ? `${modeManager.getModeLabel()} · ${phase}` : modeManager.getModeLabel(),
+    );
+
+    if (modeManager.mode === 'teams') {
+      const teams = modeManager.getTeamScores(players);
+      let st = this.scoreTexts[0];
+      if (!st) {
+        st = this.scene.add.text(10, 55, '', { fontSize: '12px', color: '#fff' }).setDepth(999);
+        this.scoreTexts[0] = st;
+      }
+      st.setText(teams.map((t) => `${t.name}: ${t.kills}`).join(' · '));
+      return;
+    }
 
     for (let i = 0; i < players.length; i++) {
       const p = players[i];

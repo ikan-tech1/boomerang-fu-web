@@ -1,24 +1,13 @@
 import { Room, Client } from '@colyseus/core';
-import type { GameStateSnapshot, InputFrame } from '@boomerang/netcode';
+import type { InputFrame } from '@boomerang/netcode';
 
 /** Authoritative game room stub — accepts input frames, broadcasts state snapshots */
-export class GameRoom extends Room<{ snapshot: GameStateSnapshot }> {
-  maxClients = 6;
+export class GameRoom extends Room {
+  override maxClients = 6;
   private tick = 0;
   private inputQueue: InputFrame[] = [];
 
-  onCreate(): void {
-    this.setState({
-      snapshot: {
-        tick: 0,
-        players: [],
-        boomerangs: [],
-        powerUps: [],
-        mode: 'freeForAll',
-        roundTimerMs: 120000,
-      },
-    });
-
+  override onCreate(): void {
     this.setSimulationInterval(() => this.step(), 1000 / 60);
 
     this.onMessage('input', (client, input: InputFrame) => {
@@ -27,17 +16,17 @@ export class GameRoom extends Room<{ snapshot: GameStateSnapshot }> {
     });
   }
 
-  onJoin(_client: Client): void {
-    // Player joined
+  override onJoin(_client: Client): void {
+    // Player joined — bot backfill stub for empty slots
   }
 
-  onLeave(_client: Client): void {
+  override onLeave(_client: Client): void {
     // Player left
   }
 
   private step(): void {
     this.tick += 1;
-    this.state.snapshot.tick = this.tick;
+    // Stub: real implementation runs Matter sim server-side and broadcasts state
     this.inputQueue.length = 0;
   }
 }

@@ -72,3 +72,11 @@ export function getPowerUpIds(): PowerUpId[] {
 }
 
 export * from './schemas/arena';
+export type {
+  ArenaData,
+  TrapPrefab,
+  KillVolume,
+  SpawnPoint,
+  TrapPrefabId,
+  TiledArenaExport,
+} from './schemas/arena';

@@ -18,6 +18,26 @@
   font-weight: 700;
 }
 
+.bf-xp-badge {
+  font-size: 0.85rem;
+  color: #ffcc66;
+  margin-left: auto;
+  margin-right: 16px;
+}
+
+.bf-back-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+  padding: 6px 12px;
+  background: #2a2a4e;
+  border: 1px solid #555;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
 .bf-nav button {
   margin-left: 8px;
   padding: 6px 14px;
