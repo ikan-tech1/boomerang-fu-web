@@ -1,0 +1,79 @@
+{
+  "id": "tele-maze",
+  "name": "Tele Maze",
+  "theme": "jungle",
+  "width": 800,
+  "height": 700,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "tele-a",
+      "type": "teleporter",
+      "x": 150,
+      "y": 150,
+      "width": 40,
+      "height": 40,
+      "properties": {
+        "pairId": "tele-b"
+      }
+    },
+    {
+      "id": "tele-b",
+      "type": "teleporter",
+      "x": 650,
+      "y": 550,
+      "width": 40,
+      "height": 40,
+      "properties": {
+        "pairId": "tele-a"
+      }
+    },
+    {
+      "id": "tele-c",
+      "type": "teleporter",
+      "x": 650,
+      "y": 150,
+      "width": 40,
+      "height": 40,
+      "properties": {
+        "pairId": "tele-d"
+      }
+    },
+    {
+      "id": "tele-d",
+      "type": "teleporter",
+      "x": 150,
+      "y": 550,
+      "width": 40,
+      "height": 40,
+      "properties": {
+        "pairId": "tele-c"
+      }
+    }
+  ],
+  "killVolumes": [],
+  "disguiseProps": [
+    "statue",
+    "torch",
+    "pot"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "id": "cloud-castle",
+  "name": "Cloud Castle",
+  "theme": "clouds",
+  "width": 880,
+  "height": 620,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "plat-c",
+      "type": "movingPlatform",
+      "x": 440,
+      "y": 310,
+      "width": 120,
+      "height": 20,
+      "properties": {
+        "originX": 440
+      }
+    },
+    {
+      "id": "tele-c1",
+      "type": "teleporter",
+      "x": 120,
+      "y": 310,
+      "width": 36,
+      "height": 36,
+      "properties": {
+        "pairId": "tele-c2"
+      }
+    },
+    {
+      "id": "tele-c2",
+      "type": "teleporter",
+      "x": 760,
+      "y": 310,
+      "width": 36,
+      "height": 36,
+      "properties": {
+        "pairId": "tele-c1"
+      }
+    }
+  ],
+  "killVolumes": [
+    {
+      "type": "water",
+      "x": 0,
+      "y": 520,
+      "width": 880,
+      "height": 100,
+      "scoresKill": false
+    }
+  ],
+  "disguiseProps": [
+    "cloud",
+    "castle-turret",
+    "flag"
+  ]
+}

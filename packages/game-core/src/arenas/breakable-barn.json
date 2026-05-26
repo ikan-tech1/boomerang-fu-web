@@ -1,0 +1,57 @@
+{
+  "id": "breakable-barn",
+  "name": "Breakable Barn",
+  "theme": "bamboo",
+  "width": 850,
+  "height": 500,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "brk-1",
+      "type": "breakable",
+      "x": 300,
+      "y": 250,
+      "width": 50,
+      "height": 50,
+      "properties": {
+        "hp": 1
+      }
+    },
+    {
+      "id": "brk-2",
+      "type": "breakable",
+      "x": 550,
+      "y": 250,
+      "width": 50,
+      "height": 50,
+      "properties": {
+        "hp": 1
+      }
+    }
+  ],
+  "killVolumes": [],
+  "disguiseProps": [
+    "crate",
+    "barrel",
+    "hay"
+  ]
+}

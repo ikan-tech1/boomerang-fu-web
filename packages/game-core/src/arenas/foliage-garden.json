@@ -1,0 +1,59 @@
+{
+  "id": "foliage-garden",
+  "name": "Foliage Garden",
+  "theme": "jungle",
+  "width": 900,
+  "height": 650,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "hide-1",
+      "type": "foliageHide",
+      "x": 200,
+      "y": 400,
+      "width": 80,
+      "height": 60
+    },
+    {
+      "id": "hide-2",
+      "type": "foliageHide",
+      "x": 700,
+      "y": 250,
+      "width": 80,
+      "height": 60
+    },
+    {
+      "id": "hide-3",
+      "type": "foliageHide",
+      "x": 450,
+      "y": 500,
+      "width": 80,
+      "height": 60
+    }
+  ],
+  "killVolumes": [],
+  "disguiseProps": [
+    "bush",
+    "fern",
+    "statue"
+  ]
+}

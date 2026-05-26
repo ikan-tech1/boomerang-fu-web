@@ -2,6 +2,7 @@ import { balance } from '@boomerang/content';
 import Phaser from 'phaser';
 import { BotBrain } from '../ai/BotBrain';
 import { arenaLoader, TrapSystem } from '../arena/ArenaLoader';
+import { PropDisguiseSystem } from '../systems/PropDisguiseSystem';
 import { DebugOverlay, HudOverlay } from '../debug/DebugOverlay';
 import { PlayerEntity } from '../entities/Player';
 import { LocalInputMux } from '../input/LocalInputMux';
@@ -9,6 +10,7 @@ import { GameModeManager, type GameModeId } from '../modes/GameModeManager';
 import { BattleRoyaleZone } from '../systems/BattleRoyaleZone';
 import { applyHitPowerUps, PowerUpSystem } from '../systems/PowerUpSystem';
 import { TelekinesisSystem } from '../systems/TelekinesisSystem';
+import { audioManager } from '../audio/AudioManager';
 
 interface SandboxSceneData {
   debug?: boolean;
@@ -35,6 +37,8 @@ export class SandboxScene extends Phaser.Scene {
   private modeManager!: GameModeManager;
   private powerUpSystem!: PowerUpSystem;
   private trapSystem!: TrapSystem;
+  private propDisguiseSystem!: PropDisguiseSystem;
+  private currentArena = arenaLoader.load('kitchen-classic');
   private telekinesisSystem = new TelekinesisSystem();
   private battleRoyaleZone!: BattleRoyaleZone;
   private debug = false;
@@ -61,12 +65,15 @@ export class SandboxScene extends Phaser.Scene {
   create(data: SandboxSceneData): void {
     const opts = { ...this.game.registry.get('launchOptions'), ...data } as SandboxSceneData;
     const arena = arenaLoader.load(opts.arenaId ?? this.arenaId);
+    this.currentArena = arena;
     this.arenaBounds = { w: arena.width, h: arena.height };
 
     this.matter.world.setBounds(20, 20, arena.width - 40, arena.height - 40, 32, true, true, true, true);
 
     this.trapSystem = new TrapSystem(this);
     this.trapSystem.loadArena(arena);
+    this.propDisguiseSystem = new PropDisguiseSystem(this);
+    this.propDisguiseSystem.loadArena(arena);
 
     this.battleRoyaleZone = new BattleRoyaleZone(this, this.arenaBounds);
     this.powerUpSystem = new PowerUpSystem(this, () => this.battleRoyaleZone.activate());
@@ -99,6 +106,12 @@ export class SandboxScene extends Phaser.Scene {
     if (this.modeManager.mode === 'hideAndSeek') {
       for (const player of this.players) {
         player.disguised = true;
+        this.propDisguiseSystem.assignRandomPropType(player, arena);
+        player.tryMatchDisguise = () => {
+          if (this.propDisguiseSystem.tryMatchProp(player)) {
+            audioManager.play('disguise_match');
+          }
+        };
       }
     }
 
@@ -119,6 +132,12 @@ export class SandboxScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown-D', () => {
       this.debug = !this.debug;
       this.debugOverlay.setEnabled(this.debug);
+    });
+
+    this.input.keyboard?.on('keydown-F', () => {
+      if (this.modeManager.mode !== 'hideAndSeek' || !this.modeManager.state.hidePhase) return;
+      const human = this.players.find((p) => !p.isBot);
+      if (human?.tryMatchDisguise) human.tryMatchDisguise();
     });
   }
 
@@ -240,6 +259,7 @@ export class SandboxScene extends Phaser.Scene {
         player.respawn(spawn?.x ?? 400, spawn?.y ?? 300);
         if (this.modeManager.mode === 'hideAndSeek' && this.modeManager.state.hidePhase) {
           player.disguised = true;
+          this.propDisguiseSystem.assignRandomPropType(player, this.currentArena);
         }
       }
     }

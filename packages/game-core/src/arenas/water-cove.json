@@ -1,0 +1,43 @@
+{
+  "id": "water-cove",
+  "name": "Water Cove",
+  "theme": "bamboo",
+  "width": 900,
+  "height": 520,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [],
+  "killVolumes": [
+    {
+      "type": "water",
+      "x": 0,
+      "y": 400,
+      "width": 900,
+      "height": 120,
+      "scoresKill": false
+    }
+  ],
+  "disguiseProps": [
+    "lily",
+    "dock",
+    "buoy"
+  ]
+}

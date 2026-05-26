@@ -1,0 +1,51 @@
+{
+  "id": "spinner-gauntlet",
+  "name": "Spinner Gauntlet",
+  "theme": "kitchen",
+  "width": 800,
+  "height": 600,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "spin-1",
+      "type": "spinner",
+      "x": 250,
+      "y": 300,
+      "width": 48,
+      "height": 48
+    },
+    {
+      "id": "spin-2",
+      "type": "spinner",
+      "x": 550,
+      "y": 300,
+      "width": 48,
+      "height": 48
+    }
+  ],
+  "killVolumes": [],
+  "disguiseProps": [
+    "pot",
+    "knife-block",
+    "plate"
+  ]
+}

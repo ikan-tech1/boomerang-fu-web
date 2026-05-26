@@ -18,13 +18,25 @@ killVolumes: string[]    # water | void | oob
 status: stub | sample | complete
 ```
 
-## Sample Arenas (Phase 3)
+## Sample Arenas (Phase 3) — 15 shipped
 
-| ID | Name | Theme | Hazards | Status |
-|----|------|-------|---------|--------|
-| kitchen-classic | Kitchen Classic | kitchen | spinner, oob | sample |
+| ID | Name | Theme | Primary trap | Status |
+|----|------|-------|--------------|--------|
+| kitchen-classic | Kitchen Classic | kitchen | spinner | sample |
 | jungle-temple | Jungle Temple | jungle | teleporter, crusher | sample |
 | bamboo-bridge | Bamboo Bridge | bamboo | movingPlatform, water | sample |
+| switchdoor-vault | Switchdoor Vault | kitchen | switchDoor | sample |
+| foliage-garden | Foliage Garden | jungle | foliageHide | sample |
+| breakable-barn | Breakable Barn | bamboo | breakable | sample |
+| spinner-gauntlet | Spinner Gauntlet | kitchen | spinner | sample |
+| platform-skyway | Platform Skyway | clouds | movingPlatform | sample |
+| crusher-cavern | Crusher Cavern | jungle | crusher | sample |
+| tele-maze | Tele Maze | jungle | teleporter | sample |
+| water-cove | Water Cove | bamboo | water | sample |
+| void-pit | Void Pit | clouds | void | sample |
+| oob-arena | OOB Arena | kitchen | oobBoundary | sample |
+| dessert-donut-dash | Donut Dash | dessert | spinner, breakable | sample |
+| cloud-castle | Cloud Castle | clouds | movingPlatform, teleporter | sample |
 
 ## Trap Prefab Catalog
 

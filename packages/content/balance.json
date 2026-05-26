@@ -15,7 +15,7 @@
     "dashDurationMs": 180,
     "dashCooldownMs": 600,
     "dashIFramesMs": 120,
-    "dashSpeedMultiplier": 2.8,
+    "dashSpeedMultiplier": 2.75,
     "meleeArcDeg": 120,
     "meleeRangePx": 48,
     "meleeActiveMs": 80,
@@ -23,7 +23,7 @@
     "recallHomingBoost": 0.08
   },
   "player": {
-    "baseSpeed": 220,
+    "baseSpeed": 218,
     "acceleration": 1800,
     "friction": 1200,
     "radiusPx": 20,
@@ -36,7 +36,7 @@
     "maxThrowSpeed": 900,
     "spinRateDegPerSec": 720,
     "wallRestitution": 0.85,
-    "returnHomingStrength": 0.12,
+    "returnHomingStrength": 0.13,
     "returnSpeed": 650,
     "pickupRadiusPx": 32,
     "maxBounces": 8,
@@ -115,6 +115,18 @@
   "arenas": [
     { "id": "kitchen-classic", "name": "Kitchen Classic", "theme": "kitchen", "status": "sample" },
     { "id": "jungle-temple", "name": "Jungle Temple", "theme": "jungle", "status": "sample" },
-    { "id": "bamboo-bridge", "name": "Bamboo Bridge", "theme": "bamboo", "status": "sample" }
+    { "id": "bamboo-bridge", "name": "Bamboo Bridge", "theme": "bamboo", "status": "sample" },
+    { "id": "switchdoor-vault", "name": "Switchdoor Vault", "theme": "kitchen", "status": "sample" },
+    { "id": "foliage-garden", "name": "Foliage Garden", "theme": "jungle", "status": "sample" },
+    { "id": "breakable-barn", "name": "Breakable Barn", "theme": "bamboo", "status": "sample" },
+    { "id": "spinner-gauntlet", "name": "Spinner Gauntlet", "theme": "kitchen", "status": "sample" },
+    { "id": "platform-skyway", "name": "Platform Skyway", "theme": "clouds", "status": "sample" },
+    { "id": "crusher-cavern", "name": "Crusher Cavern", "theme": "jungle", "status": "sample" },
+    { "id": "tele-maze", "name": "Tele Maze", "theme": "jungle", "status": "sample" },
+    { "id": "water-cove", "name": "Water Cove", "theme": "bamboo", "status": "sample" },
+    { "id": "void-pit", "name": "Void Pit", "theme": "clouds", "status": "sample" },
+    { "id": "oob-arena", "name": "OOB Arena", "theme": "kitchen", "status": "sample" },
+    { "id": "dessert-donut-dash", "name": "Donut Dash", "theme": "dessert", "status": "sample" },
+    { "id": "cloud-castle", "name": "Cloud Castle", "theme": "clouds", "status": "sample" }
   ]
 }

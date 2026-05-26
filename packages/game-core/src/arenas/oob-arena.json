@@ -1,0 +1,51 @@
+{
+  "id": "oob-arena",
+  "name": "OOB Arena",
+  "theme": "kitchen",
+  "width": 700,
+  "height": 700,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "oob-top",
+      "type": "oobBoundary",
+      "x": 0,
+      "y": 0,
+      "width": 700,
+      "height": 24
+    },
+    {
+      "id": "oob-bot",
+      "type": "oobBoundary",
+      "x": 0,
+      "y": 676,
+      "width": 700,
+      "height": 24
+    }
+  ],
+  "killVolumes": [],
+  "disguiseProps": [
+    "table",
+    "chair",
+    "rug"
+  ]
+}

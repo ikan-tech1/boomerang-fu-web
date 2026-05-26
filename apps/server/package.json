@@ -12,10 +12,13 @@
   "dependencies": {
     "@boomerang/netcode": "workspace:*",
     "@colyseus/core": "^0.17.43",
+    "@colyseus/schema": "^4.0.25",
     "@colyseus/ws-transport": "^0.17.13",
-    "colyseus": "^0.17.10"
+    "colyseus": "^0.17.10",
+    "matter-js": "^0.20.0"
   },
   "devDependencies": {
+    "@types/matter-js": "^0.19.8",
     "@types/node": "^22.10.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"

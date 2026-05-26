@@ -8,6 +8,7 @@ import {
   saveProfile,
   type PlayerProfile,
 } from './progress/ProfileStore';
+import { getColyseusEndpoint, OnlineClient } from './net/OnlineClient';
 
 type Screen = 'menu' | 'lobby' | 'game';
 
@@ -20,6 +21,8 @@ export default function App() {
   const [botCount, setBotCount] = useState(1);
   const [friendlyFire, setFriendlyFire] = useState(false);
   const [profile, setProfile] = useState<PlayerProfile | null>(null);
+  const [onlineCode, setOnlineCode] = useState('');
+  const [onlineStatus, setOnlineStatus] = useState('');
 
   useEffect(() => {
     loadProfile().then(setProfile);
@@ -112,10 +115,51 @@ export default function App() {
               <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />
               Debug Overlay
             </label>
+            <div className="bf-online-panel">
+              <strong>Online (Colyseus)</strong>
+              <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const client = new OnlineClient();
+                    try {
+                      const info = await client.connect(getColyseusEndpoint(), { mode, arenaId, characterId });
+                      setOnlineCode(info.roomCode);
+                      setOnlineStatus(`Host room ${info.roomCode}`);
+                    } catch (e) {
+                      setOnlineStatus(e instanceof Error ? e.message : 'Connect failed');
+                    }
+                  }}
+                >
+                  Host
+                </button>
+                <input
+                  placeholder="Room code"
+                  value={onlineCode}
+                  onChange={(e) => setOnlineCode(e.target.value.toUpperCase())}
+                  style={{ flex: 1 }}
+                />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const client = new OnlineClient();
+                    try {
+                      const info = await client.joinByCode(getColyseusEndpoint(), onlineCode, { characterId });
+                      setOnlineStatus(`Joined ${info.roomCode}`);
+                    } catch (e) {
+                      setOnlineStatus(e instanceof Error ? e.message : 'Join failed');
+                    }
+                  }}
+                >
+                  Join
+                </button>
+              </div>
+              {onlineStatus && <p style={{ fontSize: 12, color: '#8af' }}>{onlineStatus}</p>}
+            </div>
             <div className="bf-controls-help">
               <strong>P1 Controls</strong><br />
               WASD move · Shift dash · E melee<br />
-              Space throw · R recall<br />
+              Space throw · R recall · F match prop (Hide)<br />
               D toggle debug in-game
             </div>
             <button

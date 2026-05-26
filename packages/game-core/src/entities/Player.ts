@@ -4,6 +4,7 @@ import type { InputButtons } from '@boomerang/netcode';
 import Phaser from 'phaser';
 import { audioManager } from '../audio/AudioManager';
 import { characterRegistry } from '../characters/CharacterRegistry';
+import { createFoodSprite } from '../characters/FoodSpriteFactory';
 import type { BoomerangState } from '../types';
 import { BoomerangEntity } from './Boomerang';
 import { PowerUpInventory } from '../systems/PowerUpInventory';
@@ -42,6 +43,9 @@ export class PlayerEntity {
 
   frozen = false;
   disguised = false;
+  disguisePropType?: string;
+  disguiseMatched = false;
+  tryMatchDisguise?: () => void;
   hasGoldenBoomerang = false;
 
   constructor(
@@ -65,14 +69,14 @@ export class PlayerEntity {
       mass: balance.player.mass,
     });
 
-    const gfx = scene.add.circle(0, 0, r, char.colorHex);
-    gfx.setStrokeStyle(2, 0xffffff);
-    this.label = scene.add.text(0, -r - 8, char.name.slice(0, 3), {
+    const foodGfx = createFoodSprite(scene, config.characterId, char.colorHex, r);
+    this.label = scene.add.text(0, -r - 10, char.name.slice(0, 3), {
       fontSize: '10px',
       color: '#fff',
+      fontStyle: 'bold',
     }).setOrigin(0.5);
 
-    this.sprite = scene.add.container(config.x, config.y, [gfx, this.label]);
+    this.sprite = scene.add.container(config.x, config.y, [foodGfx, this.label]);
     this.boomerang = new BoomerangEntity(scene, matter, this);
   }
 
@@ -148,9 +152,13 @@ export class PlayerEntity {
     this.sprite.setPosition(this.body.position.x, this.body.position.y);
     const angle = Math.atan2(this.aimY, this.aimX);
     this.sprite.setRotation(angle);
-    this.sprite.setAlpha(this.disguised ? 0.35 : 1);
-    const scale = this.disguised ? 0.85 : 1;
-    this.sprite.setScale(scale);
+    if (this.disguised) {
+      this.sprite.setAlpha(this.disguiseMatched ? 0.15 : 0.4);
+      this.sprite.setScale(this.disguiseMatched ? 0.75 : 0.88);
+    } else {
+      this.sprite.setAlpha(1);
+      this.sprite.setScale(1);
+    }
   }
 
   private applyMovement(dt: number): void {
@@ -286,6 +294,8 @@ export class PlayerEntity {
     this.iFrames = balance.player.respawnIFramesMs;
     this.frozen = false;
     this.disguised = false;
+    this.disguiseMatched = false;
+    this.disguisePropType = undefined;
     const px = x ?? this.body.position.x;
     const py = y ?? this.body.position.y;
     this.matter.body.setPosition(this.body, { x: px, y: py });

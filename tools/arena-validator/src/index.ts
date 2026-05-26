@@ -61,9 +61,15 @@ if (arenaPath) {
   process.exit(result.valid ? 0 : 1);
 } else {
   // Validate bundled sample arenas
-  const samples = ['kitchen-classic', 'jungle-temple', 'bamboo-bridge'];
+  const samples = [
+    'kitchen-classic', 'jungle-temple', 'bamboo-bridge',
+    'switchdoor-vault', 'foliage-garden', 'breakable-barn',
+    'spinner-gauntlet', 'platform-skyway', 'crusher-cavern',
+    'tele-maze', 'water-cove', 'void-pit', 'oob-arena',
+    'dessert-donut-dash', 'cloud-castle',
+  ];
   for (const id of samples) {
-    const path = resolve(__dirname, `../../packages/game-core/src/arenas/${id}.json`);
+    const path = resolve(__dirname, `../../../packages/game-core/src/arenas/${id}.json`);
     const arena = JSON.parse(readFileSync(path, 'utf-8')) as ArenaData;
     const result = validateArena(arena);
     console.log(`${result.valid ? '✓' : '✗'} ${id}`, result.errors, result.warnings);

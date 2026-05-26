@@ -1,7 +1,7 @@
 # Parity Matrix
 
 > Track feature parity between reference (commercial Boomerang Fu) and web recreation.
-> Last updated: 2026-05-27
+> Last updated: 2026-05-27 (iteration 2)
 
 | Feature | Reference | Web | Status | Est. % |
 |---------|-----------|-----|--------|--------|
@@ -10,7 +10,7 @@
 | Melee arc/deflect | ✓ | ✓ | Implemented | 80% |
 | Throw + charge | ✓ | ✓ | Implemented | 85% |
 | Recall | ✓ | ✓ | Implemented | 85% |
-| Boomerang bounce/return | ✓ | ✓ | Implemented | 75% |
+| Boomerang bounce/return | ✓ | ✓ | Tuned homing | 78% |
 | One-hit kill | ✓ | ✓ | Implemented | 90% |
 | Shield power-up | ✓ | ✓ | Implemented | 90% |
 | Fire power-up | ✓ | ✓ | Basic VFX spread | 70% |
@@ -18,7 +18,7 @@
 | Explosive power-up | ✓ | ✓ | Implemented | 80% |
 | Teleport power-up | ✓ | ✓ | Implemented | 75% |
 | Telekinesis | ✓ | ✓ | Radius steer sim | 70% |
-| Disguise | ✓ | ✓ | Alpha/scale + reveal | 65% |
+| Disguise | ✓ | ✓ | Prop match + foliage | 72% |
 | Decoy | ✓ | ✓ | Basic clone | 60% |
 | Battle Royale zone | ✓ | ✓ | Shrinking ring + OOB kill | 70% |
 | Spam Dash | ✓ | ✓ | Implemented | 85% |
@@ -28,19 +28,20 @@
 | Free-for-All mode | ✓ | ✓ | Implemented | 85% |
 | Teams mode | ✓ | ✓ | Team scoring + FF toggle | 70% |
 | Golden Boomerang mode | ✓ | ✓ | Timer spawn + bonus pts | 65% |
-| Hide & Seek mode | ✓ | ✓ | Hide/seek phases + disguise | 60% |
-| 20 characters | ✓ | ◐ | Color circles, all in data | 25% |
-| 50+ arenas | ✓ | ◐ | 3 JSON samples + traps | 8% |
+| Hide & Seek mode | ✓ | ✓ | Phases + prop matching | 68% |
+| 20 characters | ✓ | ◐ | Procedural food silhouettes | 48% |
+| 50+ arenas | ✓ | ◐ | 15 arenas, all trap archetypes | 30% |
 | Bot AI | ✓ | ✓ | Chase/throw + difficulty tiers | 55% |
 | Local 6P | ✓ | ◐ | Keyboard 2P + gamepad mux | 45% |
-| Online multiplayer | ✓ | ◐ | Colyseus room stub | 15% |
-| SFX/Music | ✓ | ◐ | Howler stub keys | 20% |
+| Online multiplayer | ✓ | ◐ | Colyseus Matter sim + room codes | 42% |
+| SFX/Music | ✓ | ◐ | Web Audio procedural SFX | 45% |
 | Rules editor | ✓ | ◐ | Lobby toggles | 35% |
 | XP/unlocks | ✓ | ◐ | IndexedDB profile + char unlocks | 40% |
-| Map select | ✓ | ✓ | Lobby dropdown | 80% |
+| Map select | ✓ | ✓ | Lobby dropdown (15 maps) | 85% |
 | Death slice VFX | ✓ | ✓ | Basic particles | 50% |
 | Debug overlays | — | ✓ | Implemented | 95% |
-| Playwright QA | — | ✓ | Smoke test | 30% |
+| Playwright QA | — | ✓ | Smoke + replay unit test | 38% |
+| Tiled arena loader | — | ✓ | fromTiled() object layers | 55% |
 
 **Legend**: ✓ Complete · ◐ Partial/Stub · ✗ Not started
 
@@ -48,27 +49,28 @@
 
 | Domain | Est. Complete |
 |--------|---------------|
-| Combat / physics | **78%** |
+| Combat / physics | **80%** |
 | Power-ups (13) | **74%** |
-| Game modes (4) | **70%** |
-| Arenas / traps | **12%** |
-| Characters / art | **25%** |
-| Multiplayer | **30%** |
-| Audio | **20%** |
-| UI / meta | **55%** |
-| QA / fidelity | **30%** |
-| **Overall** | **~42%** |
+| Game modes (4) | **72%** |
+| Arenas / traps | **30%** |
+| Characters / art | **48%** |
+| Multiplayer | **42%** |
+| Audio | **45%** |
+| UI / meta | **58%** |
+| QA / fidelity | **38%** |
+| **Overall** | **~52%** |
 
 ## Tuning Targets
 
 - Throw speed: ±5% of reference
 - Dash distance: ±5% of reference
 - Return timing: ±5% of reference
+- Replay harness: deterministic 120-frame Matter seed test (`pnpm test:unit`)
 
 ## Next Priority
 
-1. Physics tuning pass against reference footage
-2. Authoritative Colyseus server sim + room codes
-3. Arena batch pipeline (10 trap archetypes)
-4. Character sprite atlases + silhouette readability
-5. SFX/music bank recreation
+1. Client-side state interpolation from Colyseus snapshots
+2. Arena batches 16–50 (themed Tiled source maps)
+3. Real SFX/music sprite banks (replace procedural interim)
+4. Character atlases + costumes
+5. Full Playwright fidelity suite (physics replay + visual snapshots)
