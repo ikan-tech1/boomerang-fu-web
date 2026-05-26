@@ -11,6 +11,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.bf-home-link {
+  color: #8af;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.bf-home-link:hover,
+.bf-home-link:focus-visible {
+  color: #adf;
+  outline: none;
 }
 
 .bf-header h1 {

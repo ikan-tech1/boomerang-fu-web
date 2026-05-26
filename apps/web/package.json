@@ -15,7 +15,8 @@
     "@boomerang/netcode": "workspace:*",
     "colyseus.js": "^0.16.19",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.15.1"
   },
   "devDependencies": {
     "@types/react": "^19.0.2",

@@ -4,5 +4,8 @@
   "devCommand": "pnpm --filter @boomerang/web dev",
   "installCommand": "pnpm install",
   "outputDirectory": "apps/web/dist",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/((?!assets/).*)", "destination": "/index.html" }
+  ]
 }
