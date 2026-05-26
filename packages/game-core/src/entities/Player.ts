@@ -47,6 +47,8 @@ export class PlayerEntity {
   disguiseMatched = false;
   tryMatchDisguise?: () => void;
   hasGoldenBoomerang = false;
+  isSeeker = false;
+  teamRevivesLeft = 1;
 
   constructor(
     scene: Phaser.Scene,
@@ -260,6 +262,11 @@ export class PlayerEntity {
     if (killer && source !== 'environment' && countKill) {
       killer.kills += 1;
       killer.score += this.hasGoldenBoomerang ? 3 : 1;
+      if (this.hasGoldenBoomerang) {
+        killer.hasGoldenBoomerang = true;
+        killer.addPowerUp('golden');
+        this.hasGoldenBoomerang = false;
+      }
     }
 
     audioManager.play('kill');

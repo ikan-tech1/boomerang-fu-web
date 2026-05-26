@@ -1,0 +1,52 @@
+{
+  "id": "jungle-snake-pit",
+  "name": "Snake Pit",
+  "theme": "jungle",
+  "width": 810,
+  "height": 625,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "spin-11",
+      "type": "spinner",
+      "x": 550,
+      "y": 300,
+      "width": 48,
+      "height": 48
+    }
+  ],
+  "killVolumes": [
+    {
+      "type": "void",
+      "x": 275,
+      "y": 275,
+      "width": 200,
+      "height": 200,
+      "scoresKill": false
+    }
+  ],
+  "disguiseProps": [
+    "pot",
+    "moss",
+    "fern"
+  ]
+}

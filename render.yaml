@@ -1,0 +1,12 @@
+services:
+  colyseus:
+    type: web
+    name: boomerang-fu-colyseus
+    runtime: docker
+    dockerfilePath: ./apps/server/Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 2567

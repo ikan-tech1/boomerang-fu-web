@@ -8,7 +8,9 @@ import {
   saveProfile,
   type PlayerProfile,
 } from './progress/ProfileStore';
-import { getColyseusEndpoint, OnlineClient } from './net/OnlineClient';
+import { getColyseusEndpoint, OnlineClient, type OnlineSyncBridge } from './net/OnlineClient';
+
+type BotDifficulty = 'easy' | 'medium' | 'hard';
 
 type Screen = 'menu' | 'lobby' | 'game';
 
@@ -19,7 +21,11 @@ export default function App() {
   const [debug, setDebug] = useState(true);
   const [characterId, setCharacterId] = useState('avocado');
   const [botCount, setBotCount] = useState(1);
+  const [botDifficulty, setBotDifficulty] = useState<BotDifficulty>('medium');
   const [friendlyFire, setFriendlyFire] = useState(false);
+  const [shieldsForLosers, setShieldsForLosers] = useState(false);
+  const [powerUpRate, setPowerUpRate] = useState(1);
+  const onlineClientRef = useRef<OnlineClient | null>(null);
   const [profile, setProfile] = useState<PlayerProfile | null>(null);
   const [onlineCode, setOnlineCode] = useState('');
   const [onlineStatus, setOnlineStatus] = useState('');
@@ -101,6 +107,33 @@ export default function App() {
                 onChange={(e) => setBotCount(Number(e.target.value))}
               />
             </label>
+            <label>
+              Bot difficulty
+              <select value={botDifficulty} onChange={(e) => setBotDifficulty(e.target.value as BotDifficulty)}>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </label>
+            <label>
+              Power-up rate: {powerUpRate.toFixed(1)}×
+              <input
+                type="range"
+                min={0.5}
+                max={2}
+                step={0.1}
+                value={powerUpRate}
+                onChange={(e) => setPowerUpRate(Number(e.target.value))}
+              />
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={shieldsForLosers}
+                onChange={(e) => setShieldsForLosers(e.target.checked)}
+              />
+              Shields for losers
+            </label>
             {mode === 'teams' && (
               <label>
                 <input
@@ -121,11 +154,11 @@ export default function App() {
                 <button
                   type="button"
                   onClick={async () => {
-                    const client = new OnlineClient();
                     try {
-                      const info = await client.connect(getColyseusEndpoint(), { mode, arenaId, characterId });
+                      if (!onlineClientRef.current) onlineClientRef.current = new OnlineClient();
+                      const info = await onlineClientRef.current.connect(getColyseusEndpoint(), { mode, arenaId, characterId });
                       setOnlineCode(info.roomCode);
-                      setOnlineStatus(`Host room ${info.roomCode}`);
+                      setOnlineStatus(`Host room ${info.roomCode} · ${getColyseusEndpoint()}`);
                     } catch (e) {
                       setOnlineStatus(e instanceof Error ? e.message : 'Connect failed');
                     }
@@ -142,10 +175,10 @@ export default function App() {
                 <button
                   type="button"
                   onClick={async () => {
-                    const client = new OnlineClient();
                     try {
-                      const info = await client.joinByCode(getColyseusEndpoint(), onlineCode, { characterId });
-                      setOnlineStatus(`Joined ${info.roomCode}`);
+                      if (!onlineClientRef.current) onlineClientRef.current = new OnlineClient();
+                      const info = await onlineClientRef.current.joinByCode(getColyseusEndpoint(), onlineCode, { characterId });
+                      setOnlineStatus(`Joined ${info.roomCode} · ${getColyseusEndpoint()}`);
                     } catch (e) {
                       setOnlineStatus(e instanceof Error ? e.message : 'Join failed');
                     }
@@ -182,8 +215,10 @@ export default function App() {
             arenaId={arenaId}
             debug={debug}
             botCount={botCount}
+            botDifficulty={botDifficulty}
             characterId={characterId}
             friendlyFire={friendlyFire}
+            onlineBridge={onlineClientRef.current?.connected ? onlineClientRef.current : undefined}
             onMatchEnd={onMatchEnd}
             onExit={() => setScreen('lobby')}
           />
@@ -210,8 +245,10 @@ function GameCanvas({
   arenaId,
   debug,
   botCount,
+  botDifficulty,
   characterId,
   friendlyFire,
+  onlineBridge,
   onMatchEnd,
   onExit,
 }: {
@@ -219,8 +256,10 @@ function GameCanvas({
   arenaId: string;
   debug: boolean;
   botCount: number;
+  botDifficulty: BotDifficulty;
   characterId: string;
   friendlyFire: boolean;
+  onlineBridge?: OnlineSyncBridge;
   onMatchEnd: (kills: number) => void;
   onExit: () => void;
 }) {
@@ -238,9 +277,12 @@ function GameCanvas({
       debug,
       mode,
       arenaId,
-      botCount,
+      botCount: onlineBridge ? 0 : botCount,
+      botDifficulty,
       characterId,
       friendlyFire,
+      onlineBridge,
+      localPlayerId: 0,
     });
     game.events.on('round-end', (data: { players: { id: number; kills: number; isBot: boolean }[] }) => {
       if (awardedRef.current) return;
@@ -249,7 +291,7 @@ function GameCanvas({
       onMatchEnd(human?.kills ?? 0);
     });
     gameRef.current = game;
-  }, [mode, arenaId, debug, botCount, characterId, friendlyFire, onMatchEnd]);
+  }, [mode, arenaId, debug, botCount, botDifficulty, characterId, friendlyFire, onlineBridge, onMatchEnd]);
 
   useEffect(() => {
     launch();

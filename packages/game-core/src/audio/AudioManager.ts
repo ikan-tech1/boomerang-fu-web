@@ -59,6 +59,36 @@ export class AudioManager {
     osc.stop(ctx.currentTime + preset.duration);
   }
 
+  private musicOsc: OscillatorNode | null = null;
+  private musicGain: GainNode | null = null;
+
+  playMusic(track: 'menu' | 'match'): void {
+    const ctx = this.ensureContext();
+    if (!ctx) return;
+    this.stopMusic();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    const base = track === 'menu' ? 220 : 280;
+    osc.frequency.setValueAtTime(base, ctx.currentTime);
+    gain.gain.setValueAtTime(0.04, ctx.currentTime);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    this.musicOsc = osc;
+    this.musicGain = gain;
+  }
+
+  stopMusic(): void {
+    try {
+      this.musicOsc?.stop();
+    } catch {
+      /* already stopped */
+    }
+    this.musicOsc = null;
+    this.musicGain = null;
+  }
+
   setEnabled(enabled: boolean): void {
     this.enabled = enabled;
   }

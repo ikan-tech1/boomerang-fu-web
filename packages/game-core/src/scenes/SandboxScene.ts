@@ -1,6 +1,6 @@
 import { balance } from '@boomerang/content';
 import Phaser from 'phaser';
-import { BotBrain } from '../ai/BotBrain';
+import { BotBrain, type BotDifficulty } from '../ai/BotBrain';
 import { arenaLoader, TrapSystem } from '../arena/ArenaLoader';
 import { PropDisguiseSystem } from '../systems/PropDisguiseSystem';
 import { DebugOverlay, HudOverlay } from '../debug/DebugOverlay';
@@ -11,14 +11,20 @@ import { BattleRoyaleZone } from '../systems/BattleRoyaleZone';
 import { applyHitPowerUps, PowerUpSystem } from '../systems/PowerUpSystem';
 import { TelekinesisSystem } from '../systems/TelekinesisSystem';
 import { audioManager } from '../audio/AudioManager';
+import { OnlineSyncController } from '../net/OnlineSyncController';
+import type { OnlineSyncBridge } from '../net/OnlineSyncController';
 
 interface SandboxSceneData {
   debug?: boolean;
   mode?: GameModeId;
   arenaId?: string;
   botCount?: number;
+  botDifficulty?: BotDifficulty;
   characterId?: string;
   friendlyFire?: boolean;
+  shieldsForLosers?: boolean;
+  onlineBridge?: OnlineSyncBridge;
+  localPlayerId?: number;
 }
 
 const CHARACTER_ROTATION = [
@@ -46,6 +52,11 @@ export class SandboxScene extends Phaser.Scene {
   private arenaId = 'kitchen-classic';
   private launchCharacterId = 'avocado';
   private launchBotCount = 1;
+  private botDifficulty: BotDifficulty = 'medium';
+  private onlineBridge: OnlineSyncBridge | null = null;
+  private onlineSync: OnlineSyncController | null = null;
+  private localPlayerId = 0;
+  private lastServerState: unknown = null;
 
   constructor() {
     super({ key: 'SandboxScene' });
@@ -57,9 +68,18 @@ export class SandboxScene extends Phaser.Scene {
     this.arenaId = opts.arenaId ?? 'kitchen-classic';
     this.launchCharacterId = opts.characterId ?? 'avocado';
     this.launchBotCount = opts.botCount ?? 1;
+    this.botDifficulty = opts.botDifficulty ?? 'medium';
+    this.onlineBridge = opts.onlineBridge ?? null;
+    this.localPlayerId = opts.localPlayerId ?? 0;
     this.modeManager = new GameModeManager(opts.mode ?? 'freeForAll', {
       friendlyFire: opts.friendlyFire ?? false,
     });
+    if (this.onlineBridge) {
+      this.onlineSync = new OnlineSyncController(this.onlineBridge);
+      this.onlineBridge.onStateChange((state) => {
+        this.lastServerState = state;
+      });
+    }
   }
 
   create(data: SandboxSceneData): void {
@@ -104,7 +124,15 @@ export class SandboxScene extends Phaser.Scene {
     }
 
     if (this.modeManager.mode === 'hideAndSeek') {
+      const seeker = this.players[0];
+      if (seeker) {
+        seeker.isSeeker = true;
+        seeker.disguised = false;
+        seeker.label.setText('SEEK');
+        seeker.label.setColor('#ff4444');
+      }
       for (const player of this.players) {
+        if (player.isSeeker) continue;
         player.disguised = true;
         this.propDisguiseSystem.assignRandomPropType(player, arena);
         player.tryMatchDisguise = () => {
@@ -116,6 +144,7 @@ export class SandboxScene extends Phaser.Scene {
     }
 
     this.modeManager.startRound();
+    audioManager.playMusic('menu');
 
     this.add.text(arena.width / 2, arena.height - 15, arena.name, {
       fontSize: '11px',
@@ -159,7 +188,7 @@ export class SandboxScene extends Phaser.Scene {
     });
     this.players.push(player);
     if (isBot) {
-      this.bots.set(id, new BotBrain(player));
+      this.bots.set(id, new BotBrain(player, this.botDifficulty));
     }
   }
 
@@ -183,11 +212,36 @@ export class SandboxScene extends Phaser.Scene {
     const humanCount = this.players.filter((p) => !p.isBot).length || 1;
     const inputs = this.inputMux.poll(Math.max(humanCount, 1));
 
+    if (this.onlineSync && this.onlineBridge) {
+      const human = this.players.find((p) => p.id === this.localPlayerId) ?? this.players[0];
+      const input = inputs.find((i) => i.playerId === (human?.id ?? 0)) ?? inputs[0];
+      if (human && input) {
+        human.setMovement(input.moveX, input.moveY, input.aimX, input.aimY);
+        this.onlineSync.pollLocalInput(human.id, input.moveX, input.moveY, input.aimX, input.aimY, input.buttons);
+      }
+      if (this.lastServerState) {
+        const snaps = this.onlineSync.parseSnapshots(this.lastServerState);
+        this.onlineSync.syncRemotePlayers(this.players, snaps);
+        const localSnap = snaps.find((s) => s.sessionKey === this.onlineBridge?.getLocalSessionId());
+        if (localSnap && human) {
+          this.onlineSync.syncLocalPlayer(human, localSnap);
+        }
+      }
+    }
+
     for (const player of this.players) {
+      if (this.onlineSync && !player.isBot && player.id === this.localPlayerId) {
+        player.applyInput({ dash: false, melee: false, throw: false, throwHeld: false, recall: false }, dt);
+        player.update(dt, (attacker, target) => this.onMeleeHit(attacker, target));
+        continue;
+      }
+      if (this.onlineSync && player.isBot) {
+        continue;
+      }
       if (player.isBot) {
         const bot = this.bots.get(player.id);
         if (bot && player.alive) {
-          const buttons = bot.update(dt, this.players);
+          const buttons = bot.update(dt, this.players, this.modeManager.mode);
           player.applyInput(buttons, dt);
         }
       } else {
@@ -255,9 +309,11 @@ export class SandboxScene extends Phaser.Scene {
     const arena = arenaLoader.load(this.arenaId);
     for (const player of this.players) {
       if (!player.alive && player.respawnTimer <= 0) {
+        if (this.modeManager.mode === 'teams' && player.teamRevivesLeft <= 0) continue;
+        if (this.modeManager.mode === 'teams') player.teamRevivesLeft -= 1;
         const spawn = arena.spawnPoints[player.id % arena.spawnPoints.length];
         player.respawn(spawn?.x ?? 400, spawn?.y ?? 300);
-        if (this.modeManager.mode === 'hideAndSeek' && this.modeManager.state.hidePhase) {
+        if (this.modeManager.mode === 'hideAndSeek' && this.modeManager.state.hidePhase && !player.isSeeker) {
           player.disguised = true;
           this.propDisguiseSystem.assignRandomPropType(player, this.currentArena);
         }

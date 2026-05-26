@@ -1,5 +1,8 @@
 import type { GameModeId } from './modes/GameModeManager';
 
+import type { BotDifficulty } from './ai/BotBrain';
+import type { OnlineSyncBridge } from './net/OnlineSyncController';
+
 export interface GameLaunchOptions {
   width?: number;
   height?: number;
@@ -8,8 +11,13 @@ export interface GameLaunchOptions {
   arenaId?: string;
   playerCount?: number;
   botCount?: number;
+  botDifficulty?: BotDifficulty;
   characterId?: string;
   friendlyFire?: boolean;
+  shieldsForLosers?: boolean;
+  powerUpSpawnRate?: number;
+  onlineBridge?: OnlineSyncBridge;
+  localPlayerId?: number;
 }
 
 export type BoomerangState =

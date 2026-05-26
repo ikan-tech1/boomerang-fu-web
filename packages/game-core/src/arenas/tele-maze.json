@@ -72,8 +72,8 @@
   ],
   "killVolumes": [],
   "disguiseProps": [
-    "statue",
     "torch",
-    "pot"
+    "rock",
+    "vine"
   ]
 }

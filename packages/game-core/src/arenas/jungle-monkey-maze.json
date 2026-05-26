@@ -1,0 +1,51 @@
+{
+  "id": "jungle-monkey-maze",
+  "name": "Monkey Maze",
+  "theme": "jungle",
+  "width": 780,
+  "height": 590,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "hide-1-10",
+      "type": "foliageHide",
+      "x": 200,
+      "y": 400,
+      "width": 80,
+      "height": 60
+    },
+    {
+      "id": "hide-2-10",
+      "type": "foliageHide",
+      "x": 700,
+      "y": 250,
+      "width": 80,
+      "height": 60
+    }
+  ],
+  "killVolumes": [],
+  "disguiseProps": [
+    "torch",
+    "rock",
+    "vine"
+  ]
+}

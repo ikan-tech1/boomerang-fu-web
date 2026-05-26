@@ -50,8 +50,8 @@
   ],
   "killVolumes": [],
   "disguiseProps": [
-    "crate",
-    "barrel",
-    "hay"
+    "buoy",
+    "lantern",
+    "barrel"
   ]
 }

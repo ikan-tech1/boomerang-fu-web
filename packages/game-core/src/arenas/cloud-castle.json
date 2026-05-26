@@ -70,8 +70,8 @@
     }
   ],
   "disguiseProps": [
+    "flag",
     "cloud",
-    "castle-turret",
-    "flag"
+    "kite"
   ]
 }

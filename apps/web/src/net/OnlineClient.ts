@@ -1,15 +1,22 @@
 import { Client, type Room } from 'colyseus.js';
 import type { InputFrame } from '@boomerang/netcode';
 
+export interface OnlineSyncBridge {
+  sendInput(input: InputFrame): void;
+  onStateChange(handler: (state: unknown) => void): void;
+  getLocalSessionId(): string | null;
+}
+
 export interface OnlineRoomInfo {
   roomCode: string;
   sessionId: string;
   playerId: number;
 }
 
-export class OnlineClient {
+export class OnlineClient implements OnlineSyncBridge {
   private client: Client | null = null;
   private room: Room | null = null;
+  private stateHandler: ((state: unknown) => void) | null = null;
 
   get connected(): boolean {
     return this.room !== null;
@@ -34,6 +41,7 @@ export class OnlineClient {
       arenaId: options?.arenaId ?? 'kitchen-classic',
       characterId: options?.characterId ?? 'avocado',
     });
+    this.attachStateListener();
 
     const meta = this.room.metadata as { roomCode?: string };
     return {
@@ -53,6 +61,8 @@ export class OnlineClient {
     this.room = await this.client.joinById(match.roomId, {
       characterId: options?.characterId ?? 'avocado',
     });
+    this.attachStateListener();
+
     const meta = this.room.metadata as { roomCode?: string };
     return {
       roomCode: meta?.roomCode ?? roomCode,
@@ -61,18 +71,37 @@ export class OnlineClient {
     };
   }
 
+  private attachStateListener(): void {
+    if (!this.room) return;
+    this.room.onStateChange((state) => {
+      this.stateHandler?.(state);
+    });
+  }
+
   sendInput(input: InputFrame): void {
     this.room?.send('input', input);
   }
 
   onStateChange(handler: (state: unknown) => void): void {
-    this.room?.onStateChange(handler);
+    this.stateHandler = handler;
+    if (this.room) {
+      handler(this.room.state);
+    }
+  }
+
+  getLocalSessionId(): string | null {
+    return this.room?.sessionId ?? null;
+  }
+
+  getState(): unknown {
+    return this.room?.state ?? null;
   }
 
   disconnect(): void {
     void this.room?.leave();
     this.room = null;
     this.client = null;
+    this.stateHandler = null;
   }
 }
 

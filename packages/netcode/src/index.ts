@@ -65,6 +65,8 @@ export interface PowerUpStateSnapshot {
   y: number;
 }
 
+export { SnapshotInterpolator, type InterpolatedState } from './interpolation.js';
+
 export function createEmptyInputFrame(frame: number, playerId: number): InputFrame {
   return {
     frame,

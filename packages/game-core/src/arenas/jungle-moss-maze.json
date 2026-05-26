@@ -1,0 +1,56 @@
+{
+  "id": "jungle-moss-maze",
+  "name": "Moss Maze",
+  "theme": "jungle",
+  "width": 780,
+  "height": 625,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "plat-15",
+      "type": "movingPlatform",
+      "x": 450,
+      "y": 315,
+      "width": 140,
+      "height": 24,
+      "properties": {
+        "originX": 450,
+        "axis": "x"
+      }
+    }
+  ],
+  "killVolumes": [
+    {
+      "type": "void",
+      "x": 275,
+      "y": 275,
+      "width": 200,
+      "height": 200,
+      "scoresKill": false
+    }
+  ],
+  "disguiseProps": [
+    "fern",
+    "statue",
+    "pot"
+  ]
+}

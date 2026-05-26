@@ -7,15 +7,28 @@
   "tileSize": 32,
   "collisionPolys": [],
   "spawnPoints": [
-    { "x": 150, "y": 300 },
-    { "x": 650, "y": 300 },
-    { "x": 400, "y": 150 },
-    { "x": 400, "y": 450 }
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
   ],
-  "hazards": [
-    { "id": "spinner-1", "type": "spinner", "x": 400, "y": 300, "width": 50, "height": 50 },
-    { "id": "oob-1", "type": "oobBoundary", "x": 0, "y": 0, "width": 800, "height": 20 }
-  ],
+  "hazards": [],
   "killVolumes": [],
-  "disguiseProps": ["pot", "pan", "cutting-board"]
+  "disguiseProps": [
+    "pot",
+    "jar",
+    "chair"
+  ]
 }

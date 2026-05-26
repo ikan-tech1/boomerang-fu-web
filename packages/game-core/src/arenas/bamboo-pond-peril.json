@@ -1,0 +1,43 @@
+{
+  "id": "bamboo-pond-peril",
+  "name": "Pond Peril",
+  "theme": "bamboo",
+  "width": 840,
+  "height": 590,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "spin-22",
+      "type": "spinner",
+      "x": 400,
+      "y": 300,
+      "width": 48,
+      "height": 48
+    }
+  ],
+  "killVolumes": [],
+  "disguiseProps": [
+    "buoy",
+    "lantern",
+    "barrel"
+  ]
+}

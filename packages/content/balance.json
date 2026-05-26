@@ -27,7 +27,7 @@
     "acceleration": 1800,
     "friction": 1200,
     "radiusPx": 20,
-    "mass": 1.0,
+    "mass": 1,
     "respawnDelayMs": 2000,
     "respawnIFramesMs": 1000
   },
@@ -63,7 +63,10 @@
     },
     "teams": {
       "teamCount": 2,
-      "teamNames": ["Spicy", "Chill"]
+      "teamNames": [
+        "Spicy",
+        "Chill"
+      ]
     },
     "goldenBoomerang": {
       "moveSpeedMultiplier": 0.7,
@@ -76,57 +79,526 @@
     }
   },
   "powerUps": {
-    "shield": { "id": "shield", "name": "Shield", "maxUses": 1, "conflicts": [] },
-    "fire": { "id": "fire", "name": "Fire", "maxUses": -1, "conflicts": ["ice"] },
-    "ice": { "id": "ice", "name": "Ice", "maxUses": -1, "conflicts": ["fire"] },
-    "explosive": { "id": "explosive", "name": "Explosive", "maxUses": 3, "conflicts": [] },
-    "teleport": { "id": "teleport", "name": "Teleport", "maxUses": 3, "conflicts": [] },
-    "telekinesis": { "id": "telekinesis", "name": "Telekinesis", "maxUses": 1, "durationSec": 5, "conflicts": [] },
-    "disguise": { "id": "disguise", "name": "Disguise", "maxUses": 1, "conflicts": [] },
-    "decoy": { "id": "decoy", "name": "Decoy", "maxUses": 1, "conflicts": [] },
-    "battleRoyale": { "id": "battleRoyale", "name": "Battle Royale", "maxUses": 1, "conflicts": [] },
-    "spamDash": { "id": "spamDash", "name": "Spam Dash", "maxUses": 1, "durationSec": 8, "conflicts": [] },
-    "golden": { "id": "golden", "name": "Golden Boomerang", "maxUses": -1, "conflicts": [] },
-    "magnet": { "id": "magnet", "name": "Magnet", "maxUses": 1, "durationSec": 10, "conflicts": [] },
-    "multiThrow": { "id": "multiThrow", "name": "Multi Throw", "maxUses": 3, "conflicts": [] }
+    "shield": {
+      "id": "shield",
+      "name": "Shield",
+      "maxUses": 1,
+      "conflicts": []
+    },
+    "fire": {
+      "id": "fire",
+      "name": "Fire",
+      "maxUses": -1,
+      "conflicts": [
+        "ice"
+      ]
+    },
+    "ice": {
+      "id": "ice",
+      "name": "Ice",
+      "maxUses": -1,
+      "conflicts": [
+        "fire"
+      ]
+    },
+    "explosive": {
+      "id": "explosive",
+      "name": "Explosive",
+      "maxUses": 3,
+      "conflicts": []
+    },
+    "teleport": {
+      "id": "teleport",
+      "name": "Teleport",
+      "maxUses": 3,
+      "conflicts": []
+    },
+    "telekinesis": {
+      "id": "telekinesis",
+      "name": "Telekinesis",
+      "maxUses": 1,
+      "durationSec": 5,
+      "conflicts": []
+    },
+    "disguise": {
+      "id": "disguise",
+      "name": "Disguise",
+      "maxUses": 1,
+      "conflicts": []
+    },
+    "decoy": {
+      "id": "decoy",
+      "name": "Decoy",
+      "maxUses": 1,
+      "conflicts": []
+    },
+    "battleRoyale": {
+      "id": "battleRoyale",
+      "name": "Battle Royale",
+      "maxUses": 1,
+      "conflicts": []
+    },
+    "spamDash": {
+      "id": "spamDash",
+      "name": "Spam Dash",
+      "maxUses": 1,
+      "durationSec": 8,
+      "conflicts": []
+    },
+    "golden": {
+      "id": "golden",
+      "name": "Golden Boomerang",
+      "maxUses": -1,
+      "conflicts": []
+    },
+    "magnet": {
+      "id": "magnet",
+      "name": "Magnet",
+      "maxUses": 1,
+      "durationSec": 10,
+      "conflicts": []
+    },
+    "multiThrow": {
+      "id": "multiThrow",
+      "name": "Multi Throw",
+      "maxUses": 3,
+      "conflicts": []
+    }
   },
   "characters": [
-    { "id": "avocado", "name": "Avocado", "source": "base", "color": "#568203" },
-    { "id": "banana", "name": "Banana", "source": "base", "color": "#FFE135" },
-    { "id": "apple", "name": "Apple", "source": "base", "color": "#FF0800" },
-    { "id": "orange", "name": "Orange", "source": "base", "color": "#FFA500" },
-    { "id": "watermelon", "name": "Watermelon", "source": "base", "color": "#FF6B6B" },
-    { "id": "pineapple", "name": "Pineapple", "source": "base", "color": "#FFD700" },
-    { "id": "strawberry", "name": "Strawberry", "source": "base", "color": "#FC5A8D" },
-    { "id": "cherry", "name": "Cherry", "source": "base", "color": "#DE3163" },
-    { "id": "lemon", "name": "Lemon", "source": "base", "color": "#FFF44F" },
-    { "id": "grape", "name": "Grape", "source": "base", "color": "#6F2DA8" },
-    { "id": "coconut", "name": "Coconut", "source": "base", "color": "#8B7355" },
-    { "id": "peach", "name": "Peach", "source": "base", "color": "#FFCBA4" },
-    { "id": "donut", "name": "Donut", "source": "just-desserts", "color": "#D2691E" },
-    { "id": "cupcake", "name": "Cupcake", "source": "just-desserts", "color": "#FFB6C1" },
-    { "id": "cookie", "name": "Cookie", "source": "just-desserts", "color": "#C4A484" },
-    { "id": "icecream", "name": "Ice Cream", "source": "just-desserts", "color": "#E8D5B7" },
-    { "id": "popsicle", "name": "Popsicle", "source": "just-desserts", "color": "#FF69B4" },
-    { "id": "cake", "name": "Cake", "source": "just-desserts", "color": "#F5DEB3" },
-    { "id": "muffin", "name": "Muffin", "source": "just-desserts", "color": "#8B4513" },
-    { "id": "pie", "name": "Pie", "source": "just-desserts", "color": "#CD853F" }
+    {
+      "id": "avocado",
+      "name": "Avocado",
+      "source": "base",
+      "color": "#568203"
+    },
+    {
+      "id": "banana",
+      "name": "Banana",
+      "source": "base",
+      "color": "#FFE135"
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "source": "base",
+      "color": "#FF0800"
+    },
+    {
+      "id": "orange",
+      "name": "Orange",
+      "source": "base",
+      "color": "#FFA500"
+    },
+    {
+      "id": "watermelon",
+      "name": "Watermelon",
+      "source": "base",
+      "color": "#FF6B6B"
+    },
+    {
+      "id": "pineapple",
+      "name": "Pineapple",
+      "source": "base",
+      "color": "#FFD700"
+    },
+    {
+      "id": "strawberry",
+      "name": "Strawberry",
+      "source": "base",
+      "color": "#FC5A8D"
+    },
+    {
+      "id": "cherry",
+      "name": "Cherry",
+      "source": "base",
+      "color": "#DE3163"
+    },
+    {
+      "id": "lemon",
+      "name": "Lemon",
+      "source": "base",
+      "color": "#FFF44F"
+    },
+    {
+      "id": "grape",
+      "name": "Grape",
+      "source": "base",
+      "color": "#6F2DA8"
+    },
+    {
+      "id": "coconut",
+      "name": "Coconut",
+      "source": "base",
+      "color": "#8B7355"
+    },
+    {
+      "id": "peach",
+      "name": "Peach",
+      "source": "base",
+      "color": "#FFCBA4"
+    },
+    {
+      "id": "donut",
+      "name": "Donut",
+      "source": "just-desserts",
+      "color": "#D2691E"
+    },
+    {
+      "id": "cupcake",
+      "name": "Cupcake",
+      "source": "just-desserts",
+      "color": "#FFB6C1"
+    },
+    {
+      "id": "cookie",
+      "name": "Cookie",
+      "source": "just-desserts",
+      "color": "#C4A484"
+    },
+    {
+      "id": "icecream",
+      "name": "Ice Cream",
+      "source": "just-desserts",
+      "color": "#E8D5B7"
+    },
+    {
+      "id": "popsicle",
+      "name": "Popsicle",
+      "source": "just-desserts",
+      "color": "#FF69B4"
+    },
+    {
+      "id": "cake",
+      "name": "Cake",
+      "source": "just-desserts",
+      "color": "#F5DEB3"
+    },
+    {
+      "id": "muffin",
+      "name": "Muffin",
+      "source": "just-desserts",
+      "color": "#8B4513"
+    },
+    {
+      "id": "pie",
+      "name": "Pie",
+      "source": "just-desserts",
+      "color": "#CD853F"
+    }
   ],
   "arenas": [
-    { "id": "kitchen-classic", "name": "Kitchen Classic", "theme": "kitchen", "status": "sample" },
-    { "id": "jungle-temple", "name": "Jungle Temple", "theme": "jungle", "status": "sample" },
-    { "id": "bamboo-bridge", "name": "Bamboo Bridge", "theme": "bamboo", "status": "sample" },
-    { "id": "switchdoor-vault", "name": "Switchdoor Vault", "theme": "kitchen", "status": "sample" },
-    { "id": "foliage-garden", "name": "Foliage Garden", "theme": "jungle", "status": "sample" },
-    { "id": "breakable-barn", "name": "Breakable Barn", "theme": "bamboo", "status": "sample" },
-    { "id": "spinner-gauntlet", "name": "Spinner Gauntlet", "theme": "kitchen", "status": "sample" },
-    { "id": "platform-skyway", "name": "Platform Skyway", "theme": "clouds", "status": "sample" },
-    { "id": "crusher-cavern", "name": "Crusher Cavern", "theme": "jungle", "status": "sample" },
-    { "id": "tele-maze", "name": "Tele Maze", "theme": "jungle", "status": "sample" },
-    { "id": "water-cove", "name": "Water Cove", "theme": "bamboo", "status": "sample" },
-    { "id": "void-pit", "name": "Void Pit", "theme": "clouds", "status": "sample" },
-    { "id": "oob-arena", "name": "OOB Arena", "theme": "kitchen", "status": "sample" },
-    { "id": "dessert-donut-dash", "name": "Donut Dash", "theme": "dessert", "status": "sample" },
-    { "id": "cloud-castle", "name": "Cloud Castle", "theme": "clouds", "status": "sample" }
+    {
+      "id": "kitchen-classic",
+      "name": "Kitchen Classic",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "jungle-temple",
+      "name": "Jungle Temple",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "bamboo-bridge",
+      "name": "Bamboo Bridge",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "switchdoor-vault",
+      "name": "Switchdoor Vault",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "foliage-garden",
+      "name": "Foliage Garden",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "breakable-barn",
+      "name": "Breakable Barn",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "spinner-gauntlet",
+      "name": "Spinner Gauntlet",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "platform-skyway",
+      "name": "Platform Skyway",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "crusher-cavern",
+      "name": "Crusher Cavern",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "tele-maze",
+      "name": "Tele Maze",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "water-cove",
+      "name": "Water Cove",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "void-pit",
+      "name": "Void Pit",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "oob-arena",
+      "name": "OOB Arena",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "dessert-donut-dash",
+      "name": "Donut Dash",
+      "theme": "dessert",
+      "status": "generated"
+    },
+    {
+      "id": "cloud-castle",
+      "name": "Cloud Castle",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "kitchen-spice-rack",
+      "name": "Spice Rack",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "kitchen-pantry-panic",
+      "name": "Pantry Panic",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "kitchen-counter-clash",
+      "name": "Counter Clash",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "kitchen-oven-outpost",
+      "name": "Oven Outpost",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "kitchen-fridge-frenzy",
+      "name": "Fridge Frenzy",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "kitchen-sink-showdown",
+      "name": "Sink Showdown",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "kitchen-blender-blitz",
+      "name": "Blender Blitz",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "kitchen-toaster-tussle",
+      "name": "Toaster Tussle",
+      "theme": "kitchen",
+      "status": "generated"
+    },
+    {
+      "id": "jungle-temple-ruins",
+      "name": "Temple Ruins",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "jungle-vine-valley",
+      "name": "Vine Valley",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "jungle-monkey-maze",
+      "name": "Monkey Maze",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "jungle-snake-pit",
+      "name": "Snake Pit",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "jungle-canopy-chase",
+      "name": "Canopy Chase",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "jungle-ruin-rush",
+      "name": "Ruin Rush",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "jungle-totem-trial",
+      "name": "Totem Trial",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "jungle-moss-maze",
+      "name": "Moss Maze",
+      "theme": "jungle",
+      "status": "generated"
+    },
+    {
+      "id": "bamboo-bridge-battle",
+      "name": "Bridge Battle",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "bamboo-zen-garden",
+      "name": "Zen Garden",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "bamboo-panda-pass",
+      "name": "Panda Pass",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "bamboo-river-run",
+      "name": "River Run",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "bamboo-lantern-lane",
+      "name": "Lantern Lane",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "bamboo-bamboo-blitz",
+      "name": "Bamboo Blitz",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "bamboo-pond-peril",
+      "name": "Pond Peril",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "bamboo-shrine-scramble",
+      "name": "Shrine Scramble",
+      "theme": "bamboo",
+      "status": "generated"
+    },
+    {
+      "id": "clouds-sky-fort",
+      "name": "Sky Fort",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "clouds-rainbow-ridge",
+      "name": "Rainbow Ridge",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "clouds-storm-station",
+      "name": "Storm Station",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "clouds-nimbus-nest",
+      "name": "Nimbus Nest",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "clouds-wind-walk",
+      "name": "Wind Walk",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "clouds-cumulus-clash",
+      "name": "Cumulus Clash",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "clouds-thunder-trail",
+      "name": "Thunder Trail",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "clouds-aurora-arena",
+      "name": "Aurora Arena",
+      "theme": "clouds",
+      "status": "generated"
+    },
+    {
+      "id": "dessert-sugar-rush",
+      "name": "Sugar Rush",
+      "theme": "dessert",
+      "status": "generated"
+    },
+    {
+      "id": "dessert-frosting-fight",
+      "name": "Frosting Fight",
+      "theme": "dessert",
+      "status": "generated"
+    },
+    {
+      "id": "dessert-candy-canyon",
+      "name": "Candy Canyon",
+      "theme": "dessert",
+      "status": "generated"
+    },
+    {
+      "id": "dessert-pie-panic",
+      "name": "Pie Panic",
+      "theme": "dessert",
+      "status": "generated"
+    },
+    {
+      "id": "dessert-gelato-gauntlet",
+      "name": "Gelato Gauntlet",
+      "theme": "dessert",
+      "status": "generated"
+    }
   ]
 }

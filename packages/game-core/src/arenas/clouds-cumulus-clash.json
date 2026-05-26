@@ -1,0 +1,66 @@
+{
+  "id": "clouds-cumulus-clash",
+  "name": "Cumulus Clash",
+  "theme": "clouds",
+  "width": 900,
+  "height": 555,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "brk-1-29",
+      "type": "breakable",
+      "x": 300,
+      "y": 250,
+      "width": 50,
+      "height": 50,
+      "properties": {
+        "hp": 1
+      }
+    },
+    {
+      "id": "brk-2-29",
+      "type": "breakable",
+      "x": 550,
+      "y": 250,
+      "width": 50,
+      "height": 50,
+      "properties": {
+        "hp": 1
+      }
+    }
+  ],
+  "killVolumes": [
+    {
+      "type": "void",
+      "x": 275,
+      "y": 275,
+      "width": 200,
+      "height": 200,
+      "scoresKill": false
+    }
+  ],
+  "disguiseProps": [
+    "moon",
+    "flag",
+    "cloud"
+  ]
+}

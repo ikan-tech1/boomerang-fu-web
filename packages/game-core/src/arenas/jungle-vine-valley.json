@@ -1,0 +1,66 @@
+{
+  "id": "jungle-vine-valley",
+  "name": "Vine Valley",
+  "theme": "jungle",
+  "width": 900,
+  "height": 555,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "tele-a-9",
+      "type": "teleporter",
+      "x": 150,
+      "y": 150,
+      "width": 40,
+      "height": 40,
+      "properties": {
+        "pairId": "tele-b-9"
+      }
+    },
+    {
+      "id": "tele-b-9",
+      "type": "teleporter",
+      "x": 650,
+      "y": 550,
+      "width": 40,
+      "height": 40,
+      "properties": {
+        "pairId": "tele-a-9"
+      }
+    }
+  ],
+  "killVolumes": [
+    {
+      "type": "void",
+      "x": 275,
+      "y": 275,
+      "width": 200,
+      "height": 200,
+      "scoresKill": false
+    }
+  ],
+  "disguiseProps": [
+    "statue",
+    "pot",
+    "moss"
+  ]
+}

@@ -36,8 +36,8 @@
     }
   ],
   "disguiseProps": [
-    "cloud",
     "star",
-    "moon"
+    "castle-turret",
+    "rainbow"
   ]
 }

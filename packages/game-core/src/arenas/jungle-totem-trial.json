@@ -1,0 +1,57 @@
+{
+  "id": "jungle-totem-trial",
+  "name": "Totem Trial",
+  "theme": "jungle",
+  "width": 900,
+  "height": 590,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "brk-1-14",
+      "type": "breakable",
+      "x": 300,
+      "y": 250,
+      "width": 50,
+      "height": 50,
+      "properties": {
+        "hp": 1
+      }
+    },
+    {
+      "id": "brk-2-14",
+      "type": "breakable",
+      "x": 550,
+      "y": 250,
+      "width": 50,
+      "height": 50,
+      "properties": {
+        "hp": 1
+      }
+    }
+  ],
+  "killVolumes": [],
+  "disguiseProps": [
+    "vine",
+    "bush",
+    "torch"
+  ]
+}

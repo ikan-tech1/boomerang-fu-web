@@ -7,17 +7,49 @@
   "tileSize": 32,
   "collisionPolys": [],
   "spawnPoints": [
-    { "x": 100, "y": 250 },
-    { "x": 750, "y": 250 },
-    { "x": 425, "y": 100 },
-    { "x": 425, "y": 400 }
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
   ],
   "hazards": [
-    { "id": "platform-1", "type": "movingPlatform", "x": 425, "y": 250, "width": 120, "height": 20, "properties": { "originX": 425 } },
-    { "id": "spinner-1", "type": "spinner", "x": 600, "y": 250, "width": 40, "height": 40 }
+    {
+      "id": "plat-b",
+      "type": "movingPlatform",
+      "x": 425,
+      "y": 250,
+      "width": 160,
+      "height": 24,
+      "properties": {
+        "originX": 425
+      }
+    }
   ],
   "killVolumes": [
-    { "type": "water", "x": 0, "y": 420, "width": 850, "height": 80, "scoresKill": false }
+    {
+      "type": "water",
+      "x": 0,
+      "y": 380,
+      "width": 850,
+      "height": 120,
+      "scoresKill": false
+    }
   ],
-  "disguiseProps": ["bamboo", "lantern", "crate"]
+  "disguiseProps": [
+    "hay",
+    "dock",
+    "bridge"
+  ]
 }

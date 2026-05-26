@@ -1,0 +1,68 @@
+{
+  "id": "bamboo-zen-garden",
+  "name": "Zen Garden",
+  "theme": "bamboo",
+  "width": 840,
+  "height": 555,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "switch-17",
+      "type": "switchDoor",
+      "x": 400,
+      "y": 300,
+      "width": 60,
+      "height": 20,
+      "properties": {
+        "doorId": "door-17",
+        "open": false
+      }
+    },
+    {
+      "id": "door-17",
+      "type": "switchDoor",
+      "x": 400,
+      "y": 200,
+      "width": 100,
+      "height": 16,
+      "properties": {
+        "isDoor": true,
+        "open": false
+      }
+    }
+  ],
+  "killVolumes": [
+    {
+      "type": "void",
+      "x": 275,
+      "y": 275,
+      "width": 200,
+      "height": 200,
+      "scoresKill": false
+    }
+  ],
+  "disguiseProps": [
+    "crate",
+    "hay",
+    "dock"
+  ]
+}

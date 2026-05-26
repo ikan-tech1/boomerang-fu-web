@@ -44,8 +44,8 @@
   ],
   "killVolumes": [],
   "disguiseProps": [
-    "table",
     "chair",
-    "rug"
+    "knife-block",
+    "pot"
   ]
 }

@@ -1,0 +1,66 @@
+{
+  "id": "clouds-aurora-arena",
+  "name": "Aurora Arena",
+  "theme": "clouds",
+  "width": 810,
+  "height": 625,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "tele-a-31",
+      "type": "teleporter",
+      "x": 150,
+      "y": 150,
+      "width": 40,
+      "height": 40,
+      "properties": {
+        "pairId": "tele-b-31"
+      }
+    },
+    {
+      "id": "tele-b-31",
+      "type": "teleporter",
+      "x": 650,
+      "y": 550,
+      "width": 40,
+      "height": 40,
+      "properties": {
+        "pairId": "tele-a-31"
+      }
+    }
+  ],
+  "killVolumes": [
+    {
+      "type": "void",
+      "x": 275,
+      "y": 275,
+      "width": 200,
+      "height": 200,
+      "scoresKill": false
+    }
+  ],
+  "disguiseProps": [
+    "flag",
+    "cloud",
+    "kite"
+  ]
+}

@@ -44,8 +44,8 @@
   ],
   "killVolumes": [],
   "disguiseProps": [
-    "pot",
     "knife-block",
-    "plate"
+    "pot",
+    "jar"
   ]
 }

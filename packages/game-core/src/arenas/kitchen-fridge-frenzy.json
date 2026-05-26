@@ -1,0 +1,47 @@
+{
+  "id": "kitchen-fridge-frenzy",
+  "name": "Fridge Frenzy",
+  "theme": "kitchen",
+  "width": 900,
+  "height": 520,
+  "tileSize": 32,
+  "collisionPolys": [],
+  "spawnPoints": [
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
+  ],
+  "hazards": [
+    {
+      "id": "plat-4",
+      "type": "movingPlatform",
+      "x": 450,
+      "y": 275,
+      "width": 140,
+      "height": 24,
+      "properties": {
+        "originX": 450,
+        "axis": "x"
+      }
+    }
+  ],
+  "killVolumes": [],
+  "disguiseProps": [
+    "table",
+    "rug",
+    "plate"
+  ]
+}

@@ -23,6 +23,9 @@ export function createGame(
     botCount = 1,
     characterId = 'avocado',
     friendlyFire = false,
+    botDifficulty = 'medium',
+    onlineBridge,
+    localPlayerId = 0,
   } = options;
 
   return new Phaser.Game({
@@ -52,6 +55,9 @@ export function createGame(
           botCount,
           characterId,
           friendlyFire,
+          botDifficulty,
+          onlineBridge,
+          localPlayerId,
         });
       },
     },

@@ -7,18 +7,37 @@
   "tileSize": 32,
   "collisionPolys": [],
   "spawnPoints": [
-    { "x": 120, "y": 325 },
-    { "x": 780, "y": 325 },
-    { "x": 450, "y": 120 },
-    { "x": 450, "y": 530 }
+    {
+      "x": 120,
+      "y": 300
+    },
+    {
+      "x": 680,
+      "y": 300
+    },
+    {
+      "x": 400,
+      "y": 120
+    },
+    {
+      "x": 400,
+      "y": 480
+    }
   ],
   "hazards": [
-    { "id": "tele-1", "type": "teleporter", "x": 200, "y": 200, "width": 40, "height": 40, "properties": { "pairId": "tele-2" } },
-    { "id": "tele-2", "type": "teleporter", "x": 700, "y": 450, "width": 40, "height": 40, "properties": { "pairId": "tele-1" } },
-    { "id": "crusher-1", "type": "crusher", "x": 450, "y": 300, "width": 80, "height": 40 }
+    {
+      "id": "spin-j",
+      "type": "spinner",
+      "x": 450,
+      "y": 325,
+      "width": 48,
+      "height": 48
+    }
   ],
-  "killVolumes": [
-    { "type": "void", "x": 420, "y": 280, "width": 60, "height": 60, "scoresKill": false }
-  ],
-  "disguiseProps": ["statue", "bush", "pot"]
+  "killVolumes": [],
+  "disguiseProps": [
+    "torch",
+    "rock",
+    "vine"
+  ]
 }
